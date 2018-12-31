@@ -9,5 +9,6 @@ create table images(
     id serial primary key,
     name text,
     description text,
+    url text not null,
     user_id integer references users(id)
 );
