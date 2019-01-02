@@ -13,12 +13,12 @@ const uploadForm = require('./views/UploadForm');
 
 
 app.get('/', (req, res) => {
-  res.render('index');
-  // res.send(uploadForm);
+  res.send(uploadForm());
 });
 
 app.post('/upload', upload.single('image'), async (req, res) => {
-  const result = await cloudinary.v2.uploader.upload(req.file.path)
+  console.log(req.file);
+  const result = await cloudinary.v2.uploader.upload(req.file.path);
   // const blog = new Blog()
   // blog.title = req.body.title
   // blog.imageUrl = result.secure_url
@@ -27,6 +27,29 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     message: 'Image is uploaded'
   })
 })
+
+// file:
+//    { fieldname: 'image',
+//      originalname: 'pine2.png',
+//      encoding: '7bit',
+//      mimetype: 'image/png',
+//      destination: '/var/folders/5s/rswm0htn1ljd5fwj6x4lvg_m0000gn/T',
+//      filename: '8f344f86a8a2827c8fb2e717d90f93a1',
+//      path:
+//       '/var/folders/5s/rswm0htn1ljd5fwj6x4lvg_m0000gn/T/8f344f86a8a2827c8fb2e717d90f93a1',
+//      size: 19404 } }
+
+// { fieldname: 'image',
+//   originalname: 'pine3.png',
+//   encoding: '7bit',
+//   mimetype: 'image/png',
+//   destination: '/var/folders/5s/rswm0htn1ljd5fwj6x4lvg_m0000gn/T',
+//   filename: '56f27cf219ebb128e9aed1d7aac68b84',
+//   path:
+//    '/var/folders/5s/rswm0htn1ljd5fwj6x4lvg_m0000gn/T/56f27cf219ebb128e9aed1d7aac68b84',
+//   size: 110566 }
+
+
 
 // const storage = multer.diskStorage({
 //   destination: function(req, file, cb) {

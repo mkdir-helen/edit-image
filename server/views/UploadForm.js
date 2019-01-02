@@ -19,7 +19,7 @@ function UploadForm(){
                     <label for="image">Image</label>
                     <input type="file" name="image" id="image">
                 </div>
-                <button type="submit">Add Blog</button>
+                <button type="submit">Upload Image</button>
             </form>
         </div>
     </body>
