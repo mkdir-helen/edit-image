@@ -13,6 +13,7 @@ const upload = require('./handlers/multer');
 const db = require('./models/db');
 const User = require('./models/User');
 const Image = require('./models/Image');
+const Demo = require('./models/Demo');
 const uploadForm = require('./views/UploadForm');
 const loginForm = require('./views/LoginForm');
 const registerForm = require('./views/RegisterForm');
@@ -53,13 +54,17 @@ app.get('/', (req, res) => {
 
 app.post('/upload', upload.single('image'), async (req, res) => {
   console.log(req.file);
+  let date = new Date().toISOString();
   let title = req.body.title ? req.body.title : req.file.originalname.substring(0, req.file.originalname.length-4);
-  let folder = req.session.user ? req.session.user.username : 'demo';
+  let folder = req.session.user ? req.session.user.username : 'demo' + date;
   const result = await cloudinary.v2.uploader.upload(req.file.path,{public_id: `${folder}/${title}`},
     function(error, result){console.log(result, error)}
   );
   if(req.session.user){
     Image.addImage(title, result.secure_url, req.session.user.id)
+      .then(result => console.log(result));
+  }else{
+    Demo.addDemo(title, folder, result.secure_url, null)
       .then(result => console.log(result));
   }
   res.send({
@@ -130,10 +135,13 @@ app.get('/gallery', protectRoute, (req, res) => {
   console.log(req.session);
   res.redirect(`/${req.session.user.username}/gallery`);
 });
+
 app.get('/:user/gallery', protectRoute, (req,res) => {
   console.log(req.params.user);
   res.send('welcome to never never land');
-})
+});
+
+
 
 
 

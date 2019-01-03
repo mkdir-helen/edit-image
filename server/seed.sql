@@ -19,6 +19,6 @@ insert into images
 
 
 insert into demos
-    (folder_name, name, url, user_id)
+    (name, folder_name, url, user_id)
     VALUES
-    ('demo_12311871', 'baby', 'demo_12311871/baby.jpg', null );
+    ('baby', 'demo_12311871',  'demo_12311871/baby.jpg', null );
