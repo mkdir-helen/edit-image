@@ -16,3 +16,9 @@ insert into images
     ('', 'melon/ice4.jpg', 2),
     ('', 'melon/ice5.jpg', 2),
     ('', 'melon/ice6.jpg', 2);
+
+
+insert into demos
+    (folder_name, name, url, user_id)
+    VALUES
+    ('demo_12311871', 'baby', 'demo_12311871/baby.jpg', null );

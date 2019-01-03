@@ -11,3 +11,11 @@ create table images(
     url text not null,
     user_id integer references users(id)
 );
+
+create table demos(
+    id serial primary key,
+    folder_name text not null,
+    name text not null,
+    url text not null,
+    user_id integer references users(id)
+);
