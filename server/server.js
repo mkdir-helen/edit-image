@@ -6,10 +6,45 @@ app.use(express.static('views'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const cloudinary = require('cloudinary');
+const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
 require('./handlers/cloudinary');
 const upload = require('./handlers/multer');
 const db = require('./models/db');
+const User = require('./models/User');
+const Image = require('./models/Image');
 const uploadForm = require('./views/UploadForm');
+const loginForm = require('./views/LoginForm');
+const registerForm = require('./views/RegisterForm');
+
+app.use(
+  session({
+    store: new pgSession({
+      pgPromise: db
+    }),
+    secret: 'what',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 30 * 24 * 60 * 60 * 1000
+    }
+  })
+);
+
+app.use((req,res, next) => {
+  let isLoggedIn = req.session.user ? true: false;
+  console.log(isLoggedIn);
+  next();
+});
+
+function protectRoute(req, res, next){
+  let isLoggedIn = req.session.user ? true: false;
+  if(isLoggedIn){
+    next();
+  }else{
+    res.redirect('/login');
+  }
+}
 
 
 app.get('/', (req, res) => {
@@ -19,21 +54,96 @@ app.get('/', (req, res) => {
 app.post('/upload', upload.single('image'), async (req, res) => {
   console.log(req.file);
   let title = req.body.title ? req.body.title : req.file.originalname.substring(0, req.file.originalname.length-4);
-  const result = await cloudinary.v2.uploader.upload(req.file.path,{public_id: `melon/${title}`},
+  let folder = req.session.user ? req.session.user.username : 'demo';
+  const result = await cloudinary.v2.uploader.upload(req.file.path,{public_id: `${folder}/${title}`},
     function(error, result){console.log(result, error)}
   );
-  // const blog = new Blog()
-  // blog.title = req.body.title
-  // blog.imageUrl = result.secure_url
-  // await blog.save()
+  if(req.session.user){
+    Image.addImage(title, result.secure_url, req.session.user.id)
+      .then(result => console.log(result));
+  }
   res.send({
     message: 'Image is uploaded'
   })
+});
+
+
+
+app.get('/login', (req,res) =>{
+  res.send(loginForm());
 })
 
-app.get('/edit', async(req, res) => {
+app.post('/login', (req,res) => {
+  User.getByUsername(req.body.username)
+    .then(user => {
+      let didMatch = user.checkPassword(req.body.password, user.password);
+      if(didMatch){
+        req.session.user = user;
+        console.log(req.session.user);
+        // req.session.returnTo = req.originalUrl;
+        // console.log(req.session.returnTo);
+        res.redirect('/gallery');
+      }else{
+        res.redirect('/login');
+      }
+    });
+});
+
+app.get('/register', (req,res) => {
+  res.send(registerForm());
+})
+
+app.post('/register', (req,res) => {
+  User.addUser(
+    req.body.name,
+    req.body.email,
+    req.body.username,
+    req.body.password
+  )
+  .then(user => {
+    req.session.user = user;
+    // console.log(req.session);
+    // req.session.returnTo = req.originalUrl;
+    res.redirect('/gallery');
+  })
+});
+
+
+
+app.get('/edit', (req, res) => {
   res.send('edit');
 });
+
+app.get('/nosave', (req,res)=> {
+  res.send('delete it');
+});
+
+app.get('/save', protectRoute, (req,res)=> {
+  res.send('Please login/register');
+});
+
+app.get('/auto/save', (req,res)=> {
+  res.send('go to photo gallery maybe');
+});
+
+app.get('/gallery', protectRoute, (req, res) => {
+  console.log(req.session);
+  res.redirect(`/${req.session.user.username}/gallery`);
+});
+app.get('/:user/gallery', protectRoute, (req,res) => {
+  console.log(req.params.user);
+  res.send('welcome to never never land');
+})
+
+
+
+
+
+app.get('/logout', (req,res)=> {
+  req.session.destroy();
+  // req.session.returnTo = null;
+  res.redirect('/');
+})
 
 // { public_id: 'melon/baka',
 //   version: 1546464113,
