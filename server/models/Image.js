@@ -1,7 +1,7 @@
 const db = require('./db');
 
 class Image {
-    constructor(id, name, description, url, user_id){
+    constructor(id, name, url, user_id){
         this.id=id;
         this.name=name;
         this.url=url;
@@ -26,6 +26,12 @@ class Image {
     static getById(id){
         return db.one(`select * from images where id=$1`, [id]);
     }
+
+    static updateName(id, newName){
+        return db.result(`update images set name=$1, where id=$2`,
+        [newName, id]);
+    }
+
     static delete(id){
         return db.result(`delete from images where id=$1`, [id]);
     }
