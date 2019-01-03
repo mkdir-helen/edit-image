@@ -18,8 +18,8 @@ app.get('/', (req, res) => {
 
 app.post('/upload', upload.single('image'), async (req, res) => {
   console.log(req.file);
-  
-  const result = await cloudinary.v2.uploader.upload(req.file.path,{public_id: `melon/${req.body.title}`},
+  let title = req.body.title ? req.body.title : req.file.originalname.substring(0, req.file.originalname.length-4);
+  const result = await cloudinary.v2.uploader.upload(req.file.path,{public_id: `melon/${title}`},
     function(error, result){console.log(result, error)}
   );
   // const blog = new Blog()
@@ -30,6 +30,10 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     message: 'Image is uploaded'
   })
 })
+
+app.get('/edit', async(req, res) => {
+  res.send('edit');
+});
 
 // { public_id: 'melon/baka',
 //   version: 1546464113,
