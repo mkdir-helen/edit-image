@@ -6,7 +6,7 @@ class Image {
         this.name=name;
         this.url=url;
     }
-    static add(name, url, user_id){
+    static addImage(name, url, user_id){
         return db
             .one(
                 `insert into images
@@ -36,3 +36,5 @@ class Image {
         return db.result(`delete from images where id=$1`, [id]);
     }
 }
+
+module.exports = Image;

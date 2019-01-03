@@ -8,7 +8,8 @@
     "client": "cd client && npm run start",
     "server": "nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "debug": "node --inspect-brk index.js"
+    "debug": "node --inspect-brk index.js",
+    "reset-db": "dropdb image-db; createdb image-db; psql -f schema.sql image-db; psql -f seed.sql image-db; psql image-db < node_modules/connect-pg-simple/table.sql"
   },
   "repository": {
     "type": "git",
