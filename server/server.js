@@ -62,14 +62,14 @@ app.post('/upload', upload.single('image'), async (req, res) => {
   );
   if(req.session.user){
     Image.addImage(title, result.secure_url, req.session.user.id)
-      .then(result => console.log(result));
+      .then(result => {console.log(result); res.redirect('/gallery');});
   }else{
     Demo.addDemo(title, folder, result.secure_url, null)
       .then(result => console.log(result));
+      res.send({
+        message: 'Image is uploaded'
+      })
   }
-  res.send({
-    message: 'Image is uploaded'
-  })
 });
 
 
@@ -138,10 +138,21 @@ app.get('/gallery', protectRoute, (req, res) => {
 
 app.get('/:user/gallery', protectRoute, (req,res) => {
   console.log(req.params.user);
-  res.send('welcome to never never land');
+  Image.getByUser(req.session.user.id)
+    .then(result => {
+      res.send(result);
+    });
 });
 
 
+
+app.get('/:photo', (req,res)=> {
+  res.send('get the photo by itself');
+});
+
+app.get('/:photo/edit', (req,res)=> {
+  res.send('edit photo');
+});
 
 
 
