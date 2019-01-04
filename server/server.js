@@ -54,6 +54,7 @@ app.get('/', (req, res) => {
 
 app.post('/upload', upload.single('image'), async (req, res) => {
   console.log(req.file);
+  console.log('req.file');
   let date = new Date().toISOString();
   let title = req.body.title ? req.body.title : req.file.originalname.substring(0, req.file.originalname.length-4);
   let folder = req.session.user ? req.session.user.username : 'demo' + date;

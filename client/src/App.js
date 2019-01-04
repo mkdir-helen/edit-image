@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import ImageUploadPage from './ImageUploadPage';
+import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import Gallery from './components/Gallery';
+import Home from './components/Home';
 
 class App extends Component {
   render() {
     return (
+      <Router>
       <div className="App">
-        <ImageUploadPage />
+        <Route path='/' exact component={Home} />
+        <Route path='/gallery' component={Gallery} />
       </div>
+      </Router>
     );
   }
 }
