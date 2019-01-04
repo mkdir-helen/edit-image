@@ -6,7 +6,11 @@ export default class Home extends Component {
         super(props);
         this.state = {
             title: '', 
-            image: null
+            image: null,
+            allfiles: [],
+            recentfile: [],
+            recenturl: '',
+            recentname: ''
         }
     }
 
@@ -32,11 +36,17 @@ export default class Home extends Component {
     })
     .then(r => r.json())
     .then(result => {
-      console.log(result);
+      this.setState({
+        allfiles: [result],
+        recentfile: [result[result.length-1]],
+        recenturl: result[result.length-1].url,
+        recentname: result[result.length-1].name
+      })
     });
   }
 
   getImage = (e) => {
+    // console.log(e.target.files[0]);
     this.setState({
       image: e.target.files[0]
     })
@@ -63,6 +73,9 @@ export default class Home extends Component {
               </div>
               <button type="submit">Upload Image</button>
           </form>
+          <div>
+            <img src={this.state.recenturl} />
+          </div>
       </div>
     )
   }
