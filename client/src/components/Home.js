@@ -29,16 +29,6 @@ export default class Home extends Component {
     fetch(`/upload`, {
       method: 'POST',
       body: formdata
-      // headers: {
-      //   'Content-Type': 'multipart/form-data'
-      // }
-      // body: JSON.stringify({
-      //   title: this.state.title,
-
-      // }),
-      // headers: {
-      //   'Content-Type': 'application/json'
-      // }
     })
     .then(r => r.json())
     .then(result => {
@@ -46,24 +36,7 @@ export default class Home extends Component {
     });
   }
 
-  handleFileRead = (fileReader) => {
-    const content = fileReader.result;
-    this.setState({
-      image: content
-    })
-    console.log(content);
-  }
-
   getImage = (e) => {
-    // console.log(e.target);
-    // console.log(e.target.name);
-    // console.log(e.target.value);
-    // console.log(e.target.files[0].name);
-    // const fileReader = new FileReader();
-    // fileReader.onloadend = () => {
-    //   this.handleFileRead(fileReader);
-    // };
-    // fileReader.readAsText(e.target.files[0]);
     this.setState({
       image: e.target.files[0]
     })
