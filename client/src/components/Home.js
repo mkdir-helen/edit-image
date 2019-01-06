@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 export default class Home extends Component {
     constructor(props) {
@@ -10,7 +12,10 @@ export default class Home extends Component {
             allfiles: [],
             recentfile: [],
             recenturl: '',
-            recentname: ''
+            recentname: '',
+            crop: {
+              aspect: 1/1
+            }
         }
     }
 
@@ -58,6 +63,19 @@ export default class Home extends Component {
     })
   }
 
+  handleImageLoaded = (image) => {
+    console.log(image);
+  }
+
+  handleOnCropChange = (crop) => {
+    console.log(crop);
+    this.setState({crop});
+    console.log(this.state);
+  }
+  handleOnCropComplete = (crop, pixelCrop) => {
+    console.log(crop, pixelCrop);
+  }
+
   render() {
     return (
       <div>
@@ -74,7 +92,13 @@ export default class Home extends Component {
               <button type="submit">Upload Image</button>
           </form>
           <div>
-            <img src={this.state.recenturl} />
+            {/* <img src={this.state.recenturl} /> */}
+          <ReactCrop 
+          src={this.state.recenturl}
+          crop={this.state.crop}
+          onImageLoaded={this.handleImageLoaded}
+          onComplete = {this.handleOnCropComplete} 
+          onChange={this.handleOnCropChange} />
           </div>
       </div>
     )
