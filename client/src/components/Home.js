@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-
+import {base64StringtoFile,
+  downloadBase64File,
+  extractImageFileExtensionFromBase64,
+  image64toCanvasRef} from '../tools/ReusableUtils';
+import {getBase64ImageFromUrl} from '../tools/getBase64ImageFromUrl';   
 export default class Home extends Component {
     constructor(props) {
         super(props);
+        this.imagePreviewCanvasRef = React.createRef();
         this.state = {
             title: '', 
             image: null,
@@ -15,7 +20,8 @@ export default class Home extends Component {
             recentname: '',
             crop: {
               aspect: 1/1
-            }
+            },
+            imgSrc: ''
         }
     }
 
@@ -47,6 +53,13 @@ export default class Home extends Component {
         recenturl: result[result.length-1].url,
         recentname: result[result.length-1].name
       })
+      getBase64ImageFromUrl(result[result.length-1].url)
+        .then(result => {
+          this.setState({
+            imgSrc: result
+          })
+        })
+        .catch(err => console.error(err))
     });
   }
 
@@ -74,6 +87,10 @@ export default class Home extends Component {
   }
   handleOnCropComplete = (crop, pixelCrop) => {
     console.log(crop, pixelCrop);
+
+    const canvasRef = this.imagePreviewCanvasRef.current;
+    const imgSrc = this.state;
+    image64toCanvasRef(canvasRef, imgSrc, pixelCrop);
   }
 
   render() {
@@ -94,12 +111,14 @@ export default class Home extends Component {
           <div>
             {/* <img src={this.state.recenturl} /> */}
           <ReactCrop 
-          src={this.state.recenturl}
+          src={this.state.imgSrc}
           crop={this.state.crop}
           onImageLoaded={this.handleImageLoaded}
           onComplete = {this.handleOnCropComplete} 
           onChange={this.handleOnCropChange} />
           </div>
+          <p>Preview Canvas Crop</p>
+          <canvas ref={this.imagePreviewCanvasRef} ></canvas>
       </div>
     )
   }
