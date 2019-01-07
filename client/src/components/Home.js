@@ -148,19 +148,18 @@ export default class Home extends Component {
   }
   handleDownloadClickCloud = (e) => {
     e.preventDefault();
-    debugger;
     const CloudRef = this.cloudinaryImageRef.current;
     const {imgSrc} = this.state;
-    console.log(CloudRef);
-    console.log(CloudRef.state.url);
-    console.log(this.state.imgSrc);
+    // console.log(CloudRef);
+    // console.log(CloudRef.state.url);
+    // console.log(this.state.imgSrc);
     const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
-    console.log(fileExtension);
+    // console.log(fileExtension);
     const currentCloudURL = CloudRef.state.url+'.'+fileExtension;
-    console.log(currentCloudURL);
+    // console.log(currentCloudURL);
     getBase64ImageFromUrl(currentCloudURL).then(result => {
-      console.log(result);
-      console.log("result");
+      // console.log(result);
+      // console.log("result");
       this.setState({
         CloudBase64: result
       }, () => {
@@ -174,24 +173,6 @@ export default class Home extends Component {
     })
     .catch(err => console.error(err));
 
-
-
-    // const canvasRef = this.imagePreviewCanvasRef.current;
-    // const {imgSrc} = this.state;
-    // const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
-    // const imageData64 = canvasRef.toDataURL('image/' + fileExtension);
-    
-    // const myFilename = this.state.recentname + '(crop)' + fileExtension;
-    
-    // //file to be uploaded
-    // //if we want to upload original image use imgSrc
-    // // const myNewCroppedFile = base64StringtoFile(imgSrc, myFilename);
-    // const myNewCroppedFile = base64StringtoFile(imageData64, myFilename);
-    // console.log(myNewCroppedFile);
-    // //download file
-    // //if we want to download original image use imgSrc
-    // // downloadBase64File(imgSrc, myFilename);
-    // downloadBase64File(imageData64, myFilename);
   }
 
   getPublicId = (url) => {
