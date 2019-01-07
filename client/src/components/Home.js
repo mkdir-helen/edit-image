@@ -7,10 +7,14 @@ import {base64StringtoFile,
   extractImageFileExtensionFromBase64,
   image64toCanvasRef} from '../tools/ReusableUtils';
 import {getBase64ImageFromUrl} from '../tools/getBase64ImageFromUrl';   
+import {Image, Video, Transformation, CloudinaryContext} from 'cloudinary-react';
+
+
 export default class Home extends Component {
     constructor(props) {
         super(props);
         this.imagePreviewCanvasRef = React.createRef();
+        this.cloudinaryImageRef = React.createRef();
         this.state = {
             title: '', 
             image: null,
@@ -18,6 +22,8 @@ export default class Home extends Component {
             recentfile: [],
             recenturl: '',
             recentname: '',
+            public_id: '',
+            CloudBase64: '',
             crop: {
               width: 30,
               height: 10
@@ -52,7 +58,8 @@ export default class Home extends Component {
         allfiles: [result],
         recentfile: [result[result.length-1]],
         recenturl: result[result.length-1].url,
-        recentname: result[result.length-1].name
+        recentname: result[result.length-1].name,
+        public_id: this.getPublicId(result[result.length-1].url,)
       })
       getBase64ImageFromUrl(result[result.length-1].url)
         .then(result => {
@@ -123,7 +130,9 @@ export default class Home extends Component {
     const canvasRef = this.imagePreviewCanvasRef.current;
     const {imgSrc} = this.state;
     const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
+    console.log(fileExtension);
     const imageData64 = canvasRef.toDataURL('image/' + fileExtension);
+    console.log(imageData64);
     
     const myFilename = this.state.recentname + '(crop)' + fileExtension;
     
@@ -136,6 +145,49 @@ export default class Home extends Component {
     //if we want to download original image use imgSrc
     // downloadBase64File(imgSrc, myFilename);
     downloadBase64File(imageData64, myFilename);
+  }
+  handleDownloadClickCloud = (e) => {
+    e.preventDefault();
+    const CloudRef = this.cloudinaryImageRef.current;
+    const {imgSrc} = this.state;
+    // console.log(CloudRef);
+    // console.log(CloudRef.state.url);
+    // console.log(this.state.imgSrc);
+    const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
+    // console.log(fileExtension);
+    const currentCloudURL = CloudRef.state.url+'.'+fileExtension;
+    // console.log(currentCloudURL);
+    getBase64ImageFromUrl(currentCloudURL).then(result => {
+      // console.log(result);
+      // console.log("result");
+      this.setState({
+        CloudBase64: result
+      }, () => {
+        console.log(this.state.CloudBase64);
+        const myFilename = this.state.recentname + '(crop)' + fileExtension;
+        // const myNewCroppedFile = base64StringtoFile(CloudBase64, myFilename);
+        // // console.log(myNewCroppedFile);
+        downloadBase64File(this.state.CloudBase64, myFilename);
+
+      })
+    })
+    .catch(err => console.error(err));
+
+  }
+
+  getPublicId = (url) => {
+    let arr = url.split('/');
+    // console.log(arr);
+    let foldername = arr[arr.length-2];
+    // console.log(foldername);
+    let filename = arr[arr.length-1];
+    // console.log(filename);
+
+    let public_id_ext = foldername + '/' + filename;
+    // console.log(public_id_ext);
+    let public_id = public_id_ext.substring(0, public_id_ext.length-4);
+    // console.log(public_id);
+    return public_id;
   }
 
   render() {
@@ -161,10 +213,19 @@ export default class Home extends Component {
           onComplete = {this.handleOnCropComplete} 
           onChange={this.handleOnCropChange} />
           </div>
+          <div>
+          <Image cloudName="melonimage" publicId={this.state.public_id} ref={this.cloudinaryImageRef}>
+            <Transformation height="150" width="150" crop="fill" effect="sepia" radius="20" />
+            <Transformation overlay="text:arial_60:This is my picture" gravity="north" y="20" />
+            <Transformation angle="20" />
+          </Image>
+          <button onClick={this.handleDownloadClickCloud} >Download</button>
+          </div>
           <p>Preview Canvas Crop</p>
           <canvas ref={this.imagePreviewCanvasRef} ></canvas>
           <button onClick={this.handleOnCropClick} >Crop</button>
           <button onClick={this.handleDownloadClick} >Download</button>
+
       </div>
     )
   }
