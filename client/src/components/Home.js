@@ -82,16 +82,27 @@ export default class Home extends Component {
   }
 
   handleOnCropChange = (crop) => {
-    console.log(crop);
+    // console.log(crop);
     this.setState({crop});
-    console.log(this.state);
+    // console.log(this.state);
   }
   handleOnCropComplete = (crop, pixelCrop) => {
-    console.log(crop, pixelCrop);
+    // console.log(crop, pixelCrop);
 
     const canvasRef = this.imagePreviewCanvasRef.current;
     const {imgSrc} = this.state;
     image64toCanvasRef(canvasRef, imgSrc, pixelCrop);
+  }
+  handleOnCropClick = (e) => {
+    e.preventDefault();
+    const canvasRef = this.imagePreviewCanvasRef.current;
+    const {imgSrc} = this.state;
+    const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
+    const imageData64 = canvasRef.toDataURL('image/' + fileExtension);
+    console.log(imageData64);
+    this.setState({
+      imgSrc: imageData64
+    })
   }
   handleDownloadClick = (e) => {
     e.preventDefault();
@@ -138,6 +149,7 @@ export default class Home extends Component {
           </div>
           <p>Preview Canvas Crop</p>
           <canvas ref={this.imagePreviewCanvasRef} ></canvas>
+          <button onClick={this.handleOnCropClick} >Crop</button>
           <button onClick={this.handleDownloadClick} >Download</button>
       </div>
     )
