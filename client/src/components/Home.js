@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
+import {base64StringtoFile,
+  downloadBase64File,
+  extractImageFileExtensionFromBase64,
+  image64toCanvasRef} from '../tools/ReusableUtils';
+import {getBase64ImageFromUrl} from '../tools/getBase64ImageFromUrl';   
 export default class Home extends Component {
     constructor(props) {
         super(props);
+        this.imagePreviewCanvasRef = React.createRef();
         this.state = {
             title: '', 
             image: null,
             allfiles: [],
             recentfile: [],
             recenturl: '',
-            recentname: ''
+            recentname: '',
+            crop: {
+              width: 30,
+              height: 10
+            },
+            imgSrc: ''
         }
     }
 
@@ -42,6 +54,13 @@ export default class Home extends Component {
         recenturl: result[result.length-1].url,
         recentname: result[result.length-1].name
       })
+      getBase64ImageFromUrl(result[result.length-1].url)
+        .then(result => {
+          this.setState({
+            imgSrc: result
+          })
+        })
+        .catch(err => console.error(err))
     });
   }
 
@@ -56,6 +75,53 @@ export default class Home extends Component {
     this.setState({
       title: e.target.value
     })
+  }
+
+  handleImageLoaded = (image) => {
+    console.log(image);
+  }
+
+  handleOnCropChange = (crop) => {
+    // console.log(crop);
+    this.setState({crop});
+    // console.log(this.state);
+  }
+  handleOnCropComplete = (crop, pixelCrop) => {
+    // console.log(crop, pixelCrop);
+
+    const canvasRef = this.imagePreviewCanvasRef.current;
+    const {imgSrc} = this.state;
+    image64toCanvasRef(canvasRef, imgSrc, pixelCrop);
+  }
+  handleOnCropClick = (e) => {
+    e.preventDefault();
+    const canvasRef = this.imagePreviewCanvasRef.current;
+    const {imgSrc} = this.state;
+    const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
+    const imageData64 = canvasRef.toDataURL('image/' + fileExtension);
+    console.log(imageData64);
+    this.setState({
+      imgSrc: imageData64
+    })
+  }
+  handleDownloadClick = (e) => {
+    e.preventDefault();
+    const canvasRef = this.imagePreviewCanvasRef.current;
+    const {imgSrc} = this.state;
+    const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
+    const imageData64 = canvasRef.toDataURL('image/' + fileExtension);
+    
+    const myFilename = this.state.recentname + '(crop)' + fileExtension;
+    
+    //file to be uploaded
+    //if we want to upload original image use imgSrc
+    // const myNewCroppedFile = base64StringtoFile(imgSrc, myFilename);
+    const myNewCroppedFile = base64StringtoFile(imageData64, myFilename);
+    console.log(myNewCroppedFile);
+    //download file
+    //if we want to download original image use imgSrc
+    // downloadBase64File(imgSrc, myFilename);
+    downloadBase64File(imageData64, myFilename);
   }
 
   render() {
@@ -74,8 +140,17 @@ export default class Home extends Component {
               <button type="submit">Upload Image</button>
           </form>
           <div>
-            <img src={this.state.recenturl} />
+          <ReactCrop 
+          src={this.state.imgSrc}
+          crop={this.state.crop}
+          onImageLoaded={this.handleImageLoaded}
+          onComplete = {this.handleOnCropComplete} 
+          onChange={this.handleOnCropChange} />
           </div>
+          <p>Preview Canvas Crop</p>
+          <canvas ref={this.imagePreviewCanvasRef} ></canvas>
+          <button onClick={this.handleOnCropClick} >Crop</button>
+          <button onClick={this.handleDownloadClick} >Download</button>
       </div>
     )
   }
