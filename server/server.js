@@ -63,17 +63,23 @@ app.post('/upload', upload.single('image'), async (req, res) => {
   );
   if(req.session.user){
     Image.addImage(title, result.secure_url, req.session.user.id)
-      .then(result => {console.log(result); res.redirect('/gallery');});
+      .then(result => {console.log(result); res.redirect('/edit');});
   }else{
     Demo.addDemo(title, folder, result.secure_url, null)
-      .then(result => console.log(result));
-      res.send({
-        message: 'Image is uploaded'
-      })
+      .then(result => {console.log(result); res.redirect('/edit');});
   }
 });
 
+app.post('/crop', (req, res) => {
 
+  if(req.session.user){
+    console.log(req.body.url);
+    console.log(' for the cropping');
+  }else{
+    console.log(req.body.url);
+    console.log(' for the cropping');
+  }
+})
 
 app.get('/login', (req,res) =>{
   res.send(loginForm());
@@ -117,8 +123,21 @@ app.post('/register', (req,res) => {
 
 
 app.get('/edit', (req, res) => {
-  res.send('edit');
+  if(req.session.user){
+    res.redirect(`/${req.session.user.username}/edit`);
+  }else{
+    Demo.getAll()
+      .then(result => {
+        res.send(result);
+      })
+  }
 });
+app.get('/:user/edit', protectRoute, (req, res) => {
+  Image.getByUser(req.session.user.id)
+    .then(result => {
+      res.send(result);
+    });
+})
 
 app.get('/nosave', (req,res)=> {
   res.send('delete it');

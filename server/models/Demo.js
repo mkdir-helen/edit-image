@@ -27,6 +27,13 @@ class Demo {
     static getById(id){
         return db.one(`select * from demos where id=$1`, [id]);
     }
+    static getByUrl(url){
+        return db.one(`select * from demos where url=$1`, [url]);
+    }
+    static getAll(){
+        return db.any('select * from demos')
+        // .then(resultsArray => resultsArray.map(result => new Demo(result.id, result.name, result.url)))
+    }
 
     static updateName(id, newName){
         return db.result(`update demos set name=$1, where id=$2`,
@@ -34,7 +41,10 @@ class Demo {
     }
 
     static delete(id){
-        return db.result(`delete from images where id=$1`, [id]);
+        return db.result(`delete from demos where id=$1`, [id]);
+    }
+    static deleteByUrl(url){
+        return db.result(`delete from demos where url=$1`, [url]);
     }
 }
 

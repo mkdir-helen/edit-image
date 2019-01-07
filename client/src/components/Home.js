@@ -99,10 +99,24 @@ export default class Home extends Component {
     const {imgSrc} = this.state;
     const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
     const imageData64 = canvasRef.toDataURL('image/' + fileExtension);
-    console.log(imageData64);
+    // console.log(imageData64);
     this.setState({
       imgSrc: imageData64
     })
+    fetch(`/crop`, {
+      method: 'POST',
+      body: JSON.stringify({
+        url: this.state.recenturl,
+        name: this.state.recentname
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(r => r.json())
+      .then(result => {
+        console.log(result);
+      });
   }
   handleDownloadClick = (e) => {
     e.preventDefault();

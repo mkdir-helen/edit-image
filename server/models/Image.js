@@ -26,14 +26,20 @@ class Image {
     static getById(id){
         return db.one(`select * from images where id=$1`, [id]);
     }
+    static getByUrl(url){
+        return db.one(`select * from images where url=$1`, [url]);
+    }
 
     static updateName(id, newName){
         return db.result(`update images set name=$1, where id=$2`,
         [newName, id]);
     }
 
-    static delete(id){
+    static deleteById(id){
         return db.result(`delete from images where id=$1`, [id]);
+    }
+    static deleteByUrl(url){
+        return db.result(`delete from images where url=$1`, [url]);
     }
 }
 
