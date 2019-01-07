@@ -7,6 +7,9 @@ import {base64StringtoFile,
   extractImageFileExtensionFromBase64,
   image64toCanvasRef} from '../tools/ReusableUtils';
 import {getBase64ImageFromUrl} from '../tools/getBase64ImageFromUrl';   
+import {Image, Video, Transformation, CloudinaryContext} from 'cloudinary-react';
+
+
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -18,6 +21,7 @@ export default class Home extends Component {
             recentfile: [],
             recenturl: '',
             recentname: '',
+            public_id: '',
             crop: {
               width: 30,
               height: 10
@@ -52,7 +56,8 @@ export default class Home extends Component {
         allfiles: [result],
         recentfile: [result[result.length-1]],
         recenturl: result[result.length-1].url,
-        recentname: result[result.length-1].name
+        recentname: result[result.length-1].name,
+        public_id: this.getPublicId(result[result.length-1].url,)
       })
       getBase64ImageFromUrl(result[result.length-1].url)
         .then(result => {
@@ -138,6 +143,21 @@ export default class Home extends Component {
     downloadBase64File(imageData64, myFilename);
   }
 
+  getPublicId = (url) => {
+    let arr = url.split('/');
+    // console.log(arr);
+    let foldername = arr[arr.length-2];
+    // console.log(foldername);
+    let filename = arr[arr.length-1];
+    // console.log(filename);
+
+    let public_id_ext = foldername + '/' + filename;
+    // console.log(public_id_ext);
+    let public_id = public_id_ext.substring(0, public_id_ext.length-4);
+    // console.log(public_id);
+    return public_id;
+  }
+
   render() {
     return (
       <div>
@@ -161,10 +181,18 @@ export default class Home extends Component {
           onComplete = {this.handleOnCropComplete} 
           onChange={this.handleOnCropChange} />
           </div>
+          <div>
+          <Image cloudName="melonimage" publicId={this.state.public_id}>
+            <Transformation height="150" width="150" crop="fill" effect="sepia" radius="20" />
+            <Transformation overlay="text:arial_60:This is my picture" gravity="north" y="20" />
+            <Transformation angle="20" />
+          </Image>
+          </div>
           <p>Preview Canvas Crop</p>
           <canvas ref={this.imagePreviewCanvasRef} ></canvas>
           <button onClick={this.handleOnCropClick} >Crop</button>
           <button onClick={this.handleDownloadClick} >Download</button>
+
       </div>
     )
   }
