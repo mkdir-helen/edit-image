@@ -57,21 +57,46 @@ app.post('/upload', upload.single('image'), async (req, res) => {
   console.log('req.file');
   let date = new Date().toISOString();
   let title = req.body.title ? req.body.title : req.file.originalname.substring(0, req.file.originalname.length-4);
-  let folder = req.session.user ? req.session.user.username : 'demo' + date;
+  let folder = req.session.user ? req.session.user.username : 'demo';
   const result = await cloudinary.v2.uploader.upload(req.file.path,{public_id: `${folder}/${title}`},
-    function(error, result){console.log(result, error)}
+  function(error, result){console.log(result, error)}
   );
   if(req.session.user){
     Image.addImage(title, result.secure_url, req.session.user.id)
-      .then(result => {console.log(result); res.redirect('/edit');});
+    .then(result => {console.log(result); res.redirect('/edit');});
   }else{
     Demo.addDemo(title, folder, result.secure_url, null)
-      .then(result => {console.log(result); res.redirect('/edit');});
+    .then(result => {console.log(result); res.redirect('/edit');});
   }
 });
 
-app.post('/crop', (req, res) => {
+app.post('/update', upload.single('image'), async (req, res) => {
+  
+  const result = await cloudinary.v2.uploader.upload(req.file.path,{public_id: req.body.public_id},
+    function(error, result){console.log(result, error)}
+  );
+  // const result = await cloudinary.v2.uploader.upload(req.file.path,
+  //   {public_id: req.body.public_id, invalidate: true},
+  //   function(error, result) {console.log(result, error)});
 
+  if(req.session.user){
+    Image.addImage(req.body.title, result.secure_url, req.session.user.id)
+      .then(Image.getByUser(req.session.user.id)
+        .then(result => {
+          res.send(result);
+        }))
+  }else{
+    Demo.addDemo(req.body.title, req.body.folder, result.secure_url, null)
+      .then(
+        Demo.getAll()
+          .then(result => {
+            res.send(result);
+          })
+      )
+  }
+})
+app.get('/edit/crop', (req, res) => {
+  
   if(req.session.user){
     console.log(req.body.url);
     console.log(' for the cropping');
@@ -80,47 +105,16 @@ app.post('/crop', (req, res) => {
     console.log(' for the cropping');
   }
 })
-
-app.get('/login', (req,res) =>{
-  res.send(loginForm());
+app.post('/edit/crop', (req, res) => {
+  
+  if(req.session.user){
+    console.log(req.body.url);
+    console.log(' for the cropping');
+  }else{
+    console.log(req.body.url);
+    console.log(' for the cropping');
+  }
 })
-
-app.post('/login', (req,res) => {
-  User.getByUsername(req.body.username)
-    .then(user => {
-      let didMatch = user.checkPassword(req.body.password, user.password);
-      if(didMatch){
-        req.session.user = user;
-        console.log(req.session.user);
-        // req.session.returnTo = req.originalUrl;
-        // console.log(req.session.returnTo);
-        res.redirect('/gallery');
-      }else{
-        res.redirect('/login');
-      }
-    });
-});
-
-app.get('/register', (req,res) => {
-  res.send(registerForm());
-})
-
-app.post('/register', (req,res) => {
-  User.addUser(
-    req.body.name,
-    req.body.email,
-    req.body.username,
-    req.body.password
-  )
-  .then(user => {
-    req.session.user = user;
-    // console.log(req.session);
-    // req.session.returnTo = req.originalUrl;
-    res.redirect('/gallery');
-  })
-});
-
-
 
 app.get('/edit', (req, res) => {
   if(req.session.user){
@@ -173,6 +167,48 @@ app.get('/:photo', (req,res)=> {
 app.get('/:photo/edit', (req,res)=> {
   res.send('edit photo');
 });
+
+app.get('/login', (req,res) =>{
+  res.send(loginForm());
+})
+
+app.post('/login', (req,res) => {
+  User.getByUsername(req.body.username)
+    .then(user => {
+      let didMatch = user.checkPassword(req.body.password, user.password);
+      if(didMatch){
+        req.session.user = user;
+        console.log(req.session.user);
+        // req.session.returnTo = req.originalUrl;
+        // console.log(req.session.returnTo);
+        res.redirect('/gallery');
+      }else{
+        res.redirect('/login');
+      }
+    });
+});
+
+app.get('/register', (req,res) => {
+  res.send(registerForm());
+})
+
+app.post('/register', (req,res) => {
+  User.addUser(
+    req.body.name,
+    req.body.email,
+    req.body.username,
+    req.body.password
+  )
+  .then(user => {
+    req.session.user = user;
+    // console.log(req.session);
+    // req.session.returnTo = req.originalUrl;
+    res.redirect('/gallery');
+  })
+});
+
+
+
 
 
 
