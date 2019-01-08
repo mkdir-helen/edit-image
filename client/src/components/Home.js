@@ -7,7 +7,7 @@ import {base64StringtoFile,
   extractImageFileExtensionFromBase64,
   image64toCanvasRef} from '../tools/ReusableUtils';
 import {getBase64ImageFromUrl} from '../tools/getBase64ImageFromUrl';   
-import {Image, Video, Transformation, CloudinaryContext} from 'cloudinary-react';
+import EditPhoto from './EditPhoto';
 
 
 export default class Home extends Component {
@@ -170,34 +170,7 @@ export default class Home extends Component {
     // downloadBase64File(imgSrc, myFilename);
     downloadBase64File(imageData64, myFilename);
   }
-  handleDownloadClickCloud = (e) => {
-    e.preventDefault();
-    const CloudRef = this.cloudinaryImageRef.current;
-    const {imgSrc} = this.state;
-    // console.log(CloudRef);
-    // console.log(CloudRef.state.url);
-    // console.log(this.state.imgSrc);
-    const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
-    // console.log(fileExtension);
-    const currentCloudURL = CloudRef.state.url+'.'+fileExtension;
-    // console.log(currentCloudURL);
-    getBase64ImageFromUrl(currentCloudURL).then(result => {
-      // console.log(result);
-      // console.log("result");
-      this.setState({
-        CloudBase64: result
-      }, () => {
-        console.log(this.state.CloudBase64);
-        const myFilename = this.state.recentname + '(crop)' + fileExtension;
-        // const myNewCroppedFile = base64StringtoFile(CloudBase64, myFilename);
-        // // console.log(myNewCroppedFile);
-        downloadBase64File(this.state.CloudBase64, myFilename);
-
-      })
-    })
-    .catch(err => console.error(err));
-
-  }
+  
 
   getPublicId = (url) => {
     let arr = url.split('/');
@@ -213,8 +186,9 @@ export default class Home extends Component {
     // console.log(public_id);
     return public_id;
   }
-
+  
   render() {
+   
     return (
       <div>
           <h1>Home sweet home</h1>  
@@ -244,14 +218,14 @@ export default class Home extends Component {
             <button onClick={this.handleDownloadClick} >Download</button>
             <button onClick={this.handleFurtherEditClick} >Edit Further</button>
           </div>
-          <div>
-            <Image cloudName="melonimage" publicId={this.state.public_id} ref={this.cloudinaryImageRef}>
-              <Transformation crop="fill" effect="sepia" radius="20" />
-              <Transformation overlay="text:arial_60:This is my picture" gravity="north" y="20" />
-              <Transformation angle="20" />
-            </Image>
-            <button onClick={this.handleDownloadClickCloud} >Download</button>
-          </div>
+
+          <EditPhoto 
+          imagePreviewCanvasRef={this.imagePreviewCanvasRef}
+          recentname={this.state.recentname}
+          imgSrc={this.state.imgSrc}
+          public_id={this.state.public_id}
+          />
+
       </div>
     )
   }
