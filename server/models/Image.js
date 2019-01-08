@@ -35,6 +35,10 @@ class Image {
         [newName, id]);
     }
 
+    static updateByUrl(url, newUrl){
+        return db.result(`update images set url=$1, where url=$2`, [newUrl, url]);
+    }
+
     static deleteById(id){
         return db.result(`delete from images where id=$1`, [id]);
     }

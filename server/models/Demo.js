@@ -39,6 +39,9 @@ class Demo {
         return db.result(`update demos set name=$1, where id=$2`,
         [newName, id]);
     }
+    static updateByUrl(url, newUrl){
+        return db.result(`update demos set url=$1, where url=$2`, [newUrl, url]);
+    }
 
     static delete(id){
         return db.result(`delete from demos where id=$1`, [id]);
