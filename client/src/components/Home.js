@@ -45,6 +45,7 @@ export default class Home extends Component {
 
    onSubmit = (e) => {
      e.preventDefault();
+    //  debugger;
      const formdata= new FormData();
      formdata.append('image', this.state.image);
      formdata.append('title', this.state.title);
@@ -59,7 +60,7 @@ export default class Home extends Component {
         recentfile: [result[result.length-1]],
         recenturl: result[result.length-1].url,
         recentname: result[result.length-1].name,
-        public_id: this.getPublicId(result[result.length-1].url,)
+        public_id: this.getPublicId(result[result.length-1].url)
       })
       getBase64ImageFromUrl(result[result.length-1].url)
         .then(result => {
@@ -110,21 +111,44 @@ export default class Home extends Component {
     this.setState({
       imgSrc: imageData64
     })
-    fetch(`/crop`, {
+  }
+  
+  handleFurtherEditClick = (e) => {
+    e.preventDefault();
+    const canvasRef = this.imagePreviewCanvasRef.current;
+    const {imgSrc} = this.state;
+    const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
+    const imageData64 = canvasRef.toDataURL('image/' + fileExtension);
+    
+    const myFilename = this.state.recentname + '(cropped)' + fileExtension;
+    const myNewCroppedFile = base64StringtoFile(imageData64, myFilename);
+    
+    let arr = this.state.recenturl.split('/');
+    let foldername = arr[arr.length-2];
+    const formdata= new FormData();
+    formdata.append('title', myFilename);
+    formdata.append('url', this.state.recenturl);
+    formdata.append('public_id', this.state.public_id);
+    formdata.append('folder', foldername);
+    formdata.append('image', myNewCroppedFile);
+    fetch(`/upload`, {
       method: 'POST',
-      body: JSON.stringify({
-        url: this.state.recenturl,
-        name: this.state.recentname
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      body: formdata,
     })
       .then(r => r.json())
       .then(result => {
         console.log(result);
+        this.setState({
+          allfiles: [result],
+          recentfile: [result[result.length-1]],
+          recenturl: result[result.length-1].url,
+          recentname: result[result.length-1].name,
+          public_id: this.getPublicId(result[result.length-1].url)
+        })
       });
+
   }
+
   handleDownloadClick = (e) => {
     e.preventDefault();
     const canvasRef = this.imagePreviewCanvasRef.current;
@@ -206,26 +230,28 @@ export default class Home extends Component {
               <button type="submit">Upload Image</button>
           </form>
           <div>
-          <ReactCrop 
-          src={this.state.imgSrc}
-          crop={this.state.crop}
-          onImageLoaded={this.handleImageLoaded}
-          onComplete = {this.handleOnCropComplete} 
-          onChange={this.handleOnCropChange} />
+            <ReactCrop 
+            src={this.state.imgSrc}
+            crop={this.state.crop}
+            onImageLoaded={this.handleImageLoaded}
+            onComplete = {this.handleOnCropComplete} 
+            onChange={this.handleOnCropChange} />
           </div>
           <div>
-          <Image cloudName="melonimage" publicId={this.state.public_id} ref={this.cloudinaryImageRef}>
-            <Transformation height="150" width="150" crop="fill" effect="sepia" radius="20" />
-            <Transformation overlay="text:arial_60:This is my picture" gravity="north" y="20" />
-            <Transformation angle="20" />
-          </Image>
-          <button onClick={this.handleDownloadClickCloud} >Download</button>
+            <p>Preview Canvas Crop</p>
+            <canvas ref={this.imagePreviewCanvasRef} ></canvas>
+            <button onClick={this.handleOnCropClick} >Crop</button>
+            <button onClick={this.handleDownloadClick} >Download</button>
+            <button onClick={this.handleFurtherEditClick} >Edit Further</button>
           </div>
-          <p>Preview Canvas Crop</p>
-          <canvas ref={this.imagePreviewCanvasRef} ></canvas>
-          <button onClick={this.handleOnCropClick} >Crop</button>
-          <button onClick={this.handleDownloadClick} >Download</button>
-
+          <div>
+            <Image cloudName="melonimage" publicId={this.state.public_id} ref={this.cloudinaryImageRef}>
+              <Transformation crop="fill" effect="sepia" radius="20" />
+              <Transformation overlay="text:arial_60:This is my picture" gravity="north" y="20" />
+              <Transformation angle="20" />
+            </Image>
+            <button onClick={this.handleDownloadClickCloud} >Download</button>
+          </div>
       </div>
     )
   }
