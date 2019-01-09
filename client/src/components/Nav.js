@@ -4,8 +4,8 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 export default class Nav extends Component {
   render() {
     return (
-      <div>
-        <ul>
+      <div className="NavDiv">
+        <ul className="NavUl">
             <li>
                 <Link to="/">Home</Link>
             </li>

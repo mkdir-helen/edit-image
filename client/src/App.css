@@ -30,3 +30,49 @@
     transform: rotate(360deg);
   }
 }
+
+/* Nav section */
+
+.NavUl {
+  list-style-type: none;
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.NavUl a{
+  text-decoration: none;
+  color: white;
+  /* border: 1px solid white; */
+  padding: 24px 21px;
+}
+.NavUl a:hover{
+  background: rgba(255, 255, 255, 0.274);
+}
+
+.NavDiv {
+  background: rgb(118, 3, 39);
+  padding: 10px 0;
+}
+
+/* Edit page */
+canvas{
+  width: 40%;
+}
+.cloudPreview{
+  width: 40%;
+}
+
+/* Gallery */
+.gallery {
+  width: 90%;
+  display: flex;
+  margin: 0 auto;
+}
+.image{
+  height: 100%;
+  margin: 0 5px;
+}
+.image img{
+  width: 100%;
+  object-fit: contain;
+}
