@@ -8,31 +8,47 @@ export default class Gallery extends Component {
         }
     }
 
-    // componentDidMount(){
-    //   fetch(`/gallery`)
-    //     .then(r => r.json())
-    //     .then(resultArray => {
-    //       console.log(resultArray);
-    //       this.setState({
-    //         gallery: resultArray
-    //       })
-    //     })
-    // }
+    componentDidMount(){
+      fetch(`/gallery`)
+        .then(r => r.json())
+        .then(resultArray => {
+          console.log(resultArray);
+          this.setState({
+            gallery: resultArray
+          })
+        })
+    }
 
-   handleUploadImages = images => {
-    const uploads = images.map(image => {
+    // this.setState({
+    //   allfiles: [result],
+    //   recentfile: [result[result.length-1]],
+    //   recenturl: result[result.length-1].url,
+    //   recentname: result[result.length-1].name,
+    //   public_id: this.getPublicId(result[result.length-1].url)
+    // })
+
+  //  handleUploadImages = images => {
+  //   const uploads = images.map(image => {
       
-    });
+  //   });
 
     
+  
+    render() {
+      return (
+        <div>
+          <h1>This is the gallery</h1>
+          <div className="gallery">
+            {this.state.gallery.map(data => {
+              return(
+                <div className="image" key={data.id}>
+                  <img src={data.url} alt=""/>
+                </div>
+                
+              )
+            })}
+          </div>
+        </div>
+      )
+    }
   }
-
-  render() {
-    return (
-      <div>
-        <h1>This is the gallery</h1>
-        
-      </div>
-    )
-  }
-}

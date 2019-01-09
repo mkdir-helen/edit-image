@@ -203,6 +203,7 @@ app.post('/register', (req,res) => {
     req.session.user = user;
     // console.log(req.session);
     // req.session.returnTo = req.originalUrl;
+    res.json({message: 'this is working'});
     res.redirect('/gallery');
   })
 });

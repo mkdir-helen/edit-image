@@ -4,8 +4,8 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 export default class Nav extends Component {
   render() {
     return (
-      <div>
-        <ul>
+      <div className="NavDiv">
+        <ul className="NavUl">
             <li>
                 <Link to="/">Home</Link>
             </li>
@@ -19,10 +19,13 @@ export default class Nav extends Component {
                 <Link to="/edit">Edit</Link>
             </li>
             <li>
+                <Link to="/crop">Crop</Link>
+            </li>
+            <li>
                 <Link to="/gallery">Gallery</Link>
             </li>
             <li>
-                <Link to="/crop">Crop</Link>
+                <Link to="/logout">Logout</Link>
             </li>
         </ul>
       </div>

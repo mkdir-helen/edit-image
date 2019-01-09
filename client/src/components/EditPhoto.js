@@ -65,6 +65,40 @@ export default class EditPhoto extends Component {
     .catch(err => console.error(err));
 
   }
+  handleSave = (e) => {
+    const CloudRef = this.cloudinaryImageRef.current;
+    const imgSrc = this.props.imgSrc;
+    const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
+    const currentCloudURL = CloudRef.state.url+'.'+fileExtension;
+    getBase64ImageFromUrl(currentCloudURL).then(result => {
+      this.setState({
+        CloudBase64: result
+      }, () => {
+        // console.log(this.state.CloudBase64);
+        const myFilename = this.props.recentname + '(crop)' + fileExtension;
+        const myNewCroppedFile = base64StringtoFile(this.state.CloudBase64, myFilename);
+        let arr = this.props.recenturl.split('/');
+        let foldername = arr[arr.length-2];
+        const formdata= new FormData();
+        formdata.append('title', myFilename);
+        formdata.append('url', this.props.recenturl);
+        formdata.append('public_id', this.props.public_id);
+        formdata.append('folder', foldername);
+        formdata.append('image', myNewCroppedFile);
+        fetch(`/upload`, {
+        method: 'POST',
+        body: formdata,
+        })
+        .then(r => r.json())
+        .then(result => {
+            console.log(result);
+            this.props.history.push('/gallery');
+        });
+
+      })
+    })
+    .catch(err => console.error(err));
+  }
 
   getPublicId = (url) => {
     let arr = url.split('/');
@@ -119,7 +153,11 @@ export default class EditPhoto extends Component {
       <div>
           <h1>Edit Photo</h1>
           <div>
-            <Image cloudName="melonimage" publicId={this.props.public_id} ref={this.cloudinaryImageRef}>
+            <Image cloudName="melonimage" 
+            publicId={this.props.public_id} 
+            ref={this.cloudinaryImageRef}
+            className='cloudPreview'
+            >
               <Transformation crop="fit" effect={isnotEmpty} radius={this.state.radius} opacity={this.state.opacity} />
               <Transformation overlay={`text:${this.state.fontFamily}_${this.state.fontSize}:${this.state.text}`} 
               x={this.state.x} y={this.state.y} color={this.state.coRGB} />
@@ -188,6 +226,7 @@ export default class EditPhoto extends Component {
             </select>
 
             <button onClick={this.handleDownloadClickCloud} >Download</button>
+            <button onClick={this.handleSave}>Save</button>
           </div>
       </div>
     )

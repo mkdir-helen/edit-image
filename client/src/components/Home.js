@@ -32,16 +32,7 @@ export default class Home extends Component {
         }
     }
 
-    // componentDidMount(){
-    //   fetch(`/`)
-    //     .then(r => r.json())
-    //     .then(resultArray => {
-    //       console.log(resultArray);
-    //       this.setState({
-    //         gallery: resultArray
-    //       })
-    //     })
-    // }
+
 
    onSubmit = (e) => {
      e.preventDefault();
@@ -224,6 +215,8 @@ export default class Home extends Component {
           recentname={this.state.recentname}
           imgSrc={this.state.imgSrc}
           public_id={this.state.public_id}
+          recenturl={this.state.recenturl}
+          history={this.props.history}
           />
 
       </div>
