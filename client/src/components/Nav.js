@@ -19,10 +19,13 @@ export default class Nav extends Component {
                 <Link to="/edit">Edit</Link>
             </li>
             <li>
+                <Link to="/crop">Crop</Link>
+            </li>
+            <li>
                 <Link to="/gallery">Gallery</Link>
             </li>
             <li>
-                <Link to="/crop">Crop</Link>
+                <Link to="/logout">Logout</Link>
             </li>
         </ul>
       </div>

@@ -23,6 +23,7 @@ export default class Login extends Component {
         .then(r => r.json())
         .then(result => {
             console.log(result);
+            this.props.history.push('/gallery');
         })
         .catch(err => {
             console.log(err);

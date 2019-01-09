@@ -32,16 +32,7 @@ export default class Home extends Component {
         }
     }
 
-    // componentDidMount(){
-    //   fetch(`/`)
-    //     .then(r => r.json())
-    //     .then(resultArray => {
-    //       console.log(resultArray);
-    //       this.setState({
-    //         gallery: resultArray
-    //       })
-    //     })
-    // }
+
 
    onSubmit = (e) => {
      e.preventDefault();
