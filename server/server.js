@@ -158,6 +158,14 @@ app.get('/:user/gallery', protectRoute, (req,res) => {
     });
 });
 
+app.get('/photo/:photoID', protectRoute, (req, res) => {
+  Image.getById(req.params.photoID)
+    .then(result => {
+      console.log(result);
+      res.send(result);
+    })
+})
+
 
 
 app.get('/:photo', (req,res)=> {

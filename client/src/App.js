@@ -21,7 +21,7 @@ class App extends Component {
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
         <Route path='/edit' component={Edit} />
-        <Route path='/gallery/:photoID' component={Photo} />
+        <Route path='/photo/:photoID' component={Photo} />
       </div>
       </Router>
     );
