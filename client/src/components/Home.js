@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import {base64StringtoFile,
-  downloadBase64File,
-  extractImageFileExtensionFromBase64,
-  image64toCanvasRef} from '../tools/ReusableUtils';
-import {getBase64ImageFromUrl} from '../tools/getBase64ImageFromUrl';   
-import EditPhoto from './EditPhoto';
+
 
 
 export default class Home extends Component {
@@ -28,7 +22,8 @@ export default class Home extends Component {
               width: 30,
               height: 10
             },
-            imgSrc: ''
+            imgSrc: '',
+            willEdit: false
         }
     }
 
@@ -37,6 +32,7 @@ export default class Home extends Component {
    onSubmit = (e) => {
      e.preventDefault();
     //  debugger;
+    
      const formdata= new FormData();
      formdata.append('image', this.state.image);
      formdata.append('title', this.state.title);
@@ -53,13 +49,7 @@ export default class Home extends Component {
         recentname: result[result.length-1].name,
         public_id: this.getPublicId(result[result.length-1].url)
       })
-      getBase64ImageFromUrl(result[result.length-1].url)
-        .then(result => {
-          this.setState({
-            imgSrc: result
-          })
-        })
-        .catch(err => console.error(err))
+      
     });
   }
 
@@ -76,90 +66,12 @@ export default class Home extends Component {
     })
   }
 
-  handleImageLoaded = (image) => {
-    console.log(image);
-  }
-
-  handleOnCropChange = (crop) => {
-    // console.log(crop);
-    this.setState({crop});
-    // console.log(this.state);
-  }
-  handleOnCropComplete = (crop, pixelCrop) => {
-    // console.log(crop, pixelCrop);
-
-    const canvasRef = this.imagePreviewCanvasRef.current;
-    const {imgSrc} = this.state;
-    image64toCanvasRef(canvasRef, imgSrc, pixelCrop);
-  }
-  handleOnCropClick = (e) => {
+  handleEdit = (e) => {
     e.preventDefault();
-    const canvasRef = this.imagePreviewCanvasRef.current;
-    const {imgSrc} = this.state;
-    const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
-    const imageData64 = canvasRef.toDataURL('image/' + fileExtension);
-    // console.log(imageData64);
-    this.setState({
-      imgSrc: imageData64
-    })
+    this.props.history.push('/edit');
   }
-  
-  handleFurtherEditClick = (e) => {
-    e.preventDefault();
-    const canvasRef = this.imagePreviewCanvasRef.current;
-    const {imgSrc} = this.state;
-    const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
-    const imageData64 = canvasRef.toDataURL('image/' + fileExtension);
-    
-    const myFilename = this.state.recentname + '(cropped)' + fileExtension;
-    const myNewCroppedFile = base64StringtoFile(imageData64, myFilename);
-    
-    let arr = this.state.recenturl.split('/');
-    let foldername = arr[arr.length-2];
-    const formdata= new FormData();
-    formdata.append('title', myFilename);
-    formdata.append('url', this.state.recenturl);
-    formdata.append('public_id', this.state.public_id);
-    formdata.append('folder', foldername);
-    formdata.append('image', myNewCroppedFile);
-    fetch(`/upload`, {
-      method: 'POST',
-      body: formdata,
-    })
-      .then(r => r.json())
-      .then(result => {
-        console.log(result);
-        this.setState({
-          allfiles: [result],
-          recentfile: [result[result.length-1]],
-          recenturl: result[result.length-1].url,
-          recentname: result[result.length-1].name,
-          public_id: this.getPublicId(result[result.length-1].url)
-        })
-      });
-
-  }
-
-  handleDownloadClick = (e) => {
-    e.preventDefault();
-    const canvasRef = this.imagePreviewCanvasRef.current;
-    const {imgSrc} = this.state;
-    const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
-    console.log(fileExtension);
-    const imageData64 = canvasRef.toDataURL('image/' + fileExtension);
-    console.log(imageData64);
-    
-    const myFilename = this.state.recentname + '(crop)' + fileExtension;
-    
-    //file to be uploaded
-    //if we want to upload original image use imgSrc
-    // const myNewCroppedFile = base64StringtoFile(imgSrc, myFilename);
-    const myNewCroppedFile = base64StringtoFile(imageData64, myFilename);
-    console.log(myNewCroppedFile);
-    //download file
-    //if we want to download original image use imgSrc
-    // downloadBase64File(imgSrc, myFilename);
-    downloadBase64File(imageData64, myFilename);
+  handleEditButton = (e) => {
+    this.setState({willEdit: true});
   }
   
 
@@ -194,30 +106,16 @@ export default class Home extends Component {
               </div>
               <button type="submit">Upload Image</button>
           </form>
-          <div>
-            <ReactCrop 
-            src={this.state.imgSrc}
-            crop={this.state.crop}
-            onImageLoaded={this.handleImageLoaded}
-            onComplete = {this.handleOnCropComplete} 
-            onChange={this.handleOnCropChange} />
+          { this.state.willEdit &&
+              <button onClick={this.handleEdit}>Edit Image</button>
+          }
+          <div >
+            <img src={this.state.recenturl}
+            className="homeimage"
+            onLoad={this.handleEditButton}
+            />
           </div>
-          <div>
-            <p>Preview Canvas Crop</p>
-            <canvas ref={this.imagePreviewCanvasRef} ></canvas>
-            <button onClick={this.handleOnCropClick} >Crop</button>
-            <button onClick={this.handleDownloadClick} >Download</button>
-            <button onClick={this.handleFurtherEditClick} >Edit Further</button>
-          </div>
-
-          <EditPhoto 
-          imagePreviewCanvasRef={this.imagePreviewCanvasRef}
-          recentname={this.state.recentname}
-          imgSrc={this.state.imgSrc}
-          public_id={this.state.public_id}
-          recenturl={this.state.recenturl}
-          history={this.props.history}
-          />
+          
 
       </div>
     )

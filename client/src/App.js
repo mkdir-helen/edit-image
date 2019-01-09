@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Nav from './components/Nav';
 import Login from './components/Login';
 import Register from './components/Register';
+import Edit from './components/Edit';
 
 class App extends Component {
   render() {
@@ -18,6 +19,8 @@ class App extends Component {
         <Route path='/gallery' component={Gallery} />
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
+        <Route path='/edit' component={Edit} />
+
       </div>
       </Router>
     );
