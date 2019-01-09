@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 export default class Gallery extends Component {
     constructor(props) {
@@ -32,7 +33,9 @@ export default class Gallery extends Component {
       
   //   });
 
+  handleImage = (e) => {
     
+  }  
   
     render() {
       return (
@@ -41,8 +44,10 @@ export default class Gallery extends Component {
           <div className="gallery">
             {this.state.gallery.map(data => {
               return(
-                <div className="image" key={data.id}>
-                  <img src={data.url} alt=""/>
+                <div className="image" key={data.id} onClick={this.handleImage}>
+                  <Link to={`/gallery/${data.id}`}>
+                    <img src={data.url} />
+                  </Link>
                 </div>
                 
               )

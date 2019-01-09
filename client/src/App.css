@@ -35,9 +35,9 @@
 
 .NavUl {
   list-style-type: none;
-  width: 50%;
+  /* width: 50%; */
   display: flex;
-  justify-content: space-evenly;
+  justify-content: start;
 }
 .NavUl a{
   text-decoration: none;
@@ -55,6 +55,7 @@
 }
 
 /* Edit page */
+/* cropping */
 canvas{
   width: 100%;
   margin: 0 auto;
@@ -79,6 +80,8 @@ canvas{
   /* display: grid;
   grid-template-columns: 1fr 1fr; */
 }
+
+/* further edits */
 .cloudPreview{
   width: 90%;
   /* margin: 0 auto; */
