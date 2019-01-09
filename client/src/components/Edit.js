@@ -28,7 +28,8 @@ export default class Edit extends Component {
               width: 30,
               height: 10
             },
-            imgSrc: ''
+            imgSrc: '',
+            goneEditMode: false
         }
     }
 
@@ -87,6 +88,7 @@ export default class Edit extends Component {
   
   handleFurtherEditClick = (e) => {
     e.preventDefault();
+    this.setState({goneEditMode: true});
     const canvasRef = this.imagePreviewCanvasRef.current;
     const {imgSrc} = this.state;
     const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
@@ -160,34 +162,44 @@ export default class Edit extends Component {
   }
   
   render() {
-   
+   const inEditMode = this.state.goneEditMode;
     return (
-      <div>
-          <h1>Home sweet home</h1>  
-          <div>
-            <ReactCrop 
-            src={this.state.imgSrc}
-            crop={this.state.crop}
-            onImageLoaded={this.handleImageLoaded}
-            onComplete = {this.handleOnCropComplete} 
-            onChange={this.handleOnCropChange} />
-          </div>
-          <div>
-            <p>Preview Canvas Crop</p>
-            <canvas ref={this.imagePreviewCanvasRef} ></canvas>
-            <button onClick={this.handleOnCropClick} >Crop</button>
-            <button onClick={this.handleDownloadClick} >Download</button>
-            <button onClick={this.handleFurtherEditClick} >Edit Further</button>
-          </div>
+      <div className='editor'>
+          {inEditMode ? (
+            <div className="editmode">
+                <EditPhoto 
+                imagePreviewCanvasRef={this.imagePreviewCanvasRef}
+                recentname={this.state.recentname}
+                imgSrc={this.state.imgSrc}
+                public_id={this.state.public_id}
+                recenturl={this.state.recenturl}
+                history={this.props.history}
+                />
+            </div>
+          ):(
+            <div className="cropmode">
+                <h1>Crop it</h1>  
+                <div className="cropimages">
+                    <div className="cropmain">
+                        <ReactCrop 
+                        src={this.state.imgSrc}
+                        crop={this.state.crop}
+                        onImageLoaded={this.handleImageLoaded}
+                        onComplete = {this.handleOnCropComplete} 
+                        onChange={this.handleOnCropChange} />
+                        <button onClick={this.handleOnCropClick} >Crop</button>
+                    </div>
+                    <div className="preview">
+                        <p>Preview Canvas Crop</p>
+                        <canvas ref={this.imagePreviewCanvasRef} ></canvas>
+                        <button onClick={this.handleDownloadClick} >Download</button>
+                        <button onClick={this.handleFurtherEditClick} >Edit Further</button>
+                    </div>
 
-          <EditPhoto 
-          imagePreviewCanvasRef={this.imagePreviewCanvasRef}
-          recentname={this.state.recentname}
-          imgSrc={this.state.imgSrc}
-          public_id={this.state.public_id}
-          recenturl={this.state.recenturl}
-          history={this.props.history}
-          />
+                </div>
+            </div>
+          )}
+
 
       </div>
     )
