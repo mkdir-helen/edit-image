@@ -35,9 +35,9 @@
 
 .NavUl {
   list-style-type: none;
-  width: 50%;
+  /* width: 50%; */
   display: flex;
-  justify-content: space-evenly;
+  justify-content: start;
 }
 .NavUl a{
   text-decoration: none;
@@ -55,11 +55,41 @@
 }
 
 /* Edit page */
+/* cropping */
 canvas{
-  width: 40%;
+  width: 100%;
+  margin: 0 auto;
 }
+.preview{
+  margin: 10px auto;
+  padding: 0.5% 5%;
+  width: 80%;
+  background: rgba(114, 100, 73, 0.42);
+
+}
+.editor{
+  /* background: black; */
+}
+.cropimages {
+  margin: 0 auto;
+  /* background: white; */
+}
+.cropimages .cropmain{
+  width: 90%;
+  margin: 0 auto;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr; */
+}
+
+/* further edits */
 .cloudPreview{
-  width: 40%;
+  width: 90%;
+  /* margin: 0 auto; */
+}
+
+/* Home */
+.homeimage{
+  max-width: 300px;
 }
 
 /* Gallery */
@@ -69,12 +99,12 @@ canvas{
   margin: 0 auto;
   flex-wrap: wrap;
   border: 1px solid black;
-  justify-content: space-evenly;
+  justify-content: center;
   /* flex-direction: row; */
 }
 .image{
-  width: 15%;
-  margin: 10px 0;
+  width: 200px;
+  margin: 10px;
   background: rgba(128, 128, 128, 0.084);
   object-fit: contain;
   /* flex: 1; */
