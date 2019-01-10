@@ -23,6 +23,10 @@ export default class Edit extends Component {
             recenturl: '',
             recentname: '',
             public_id: '',
+            dFile: [],
+            dUrl: '',
+            dName: '',
+            dPublicID: '',
             CloudBase64: '',
             crop: {
               width: 30,
@@ -117,9 +121,27 @@ export default class Edit extends Component {
           recentfile: [result[result.length-1]],
           recenturl: result[result.length-1].url,
           recentname: result[result.length-1].name,
-          public_id: this.getPublicId(result[result.length-1].url)
+          public_id: this.getPublicId(result[result.length-1].url),
+          dFile: [result[result.length-2]],
+          dUrl: result[result.length-2].url,
+          dName: result[result.length-2].name,
+          dPublicID: this.getPublicId(result[result.length-2].url)
         })
-      });
+        fetch(`/delete`,{
+          method: `POST`,
+          body: JSON.stringify({
+            publicID: this.getPublicId(result[result.length-2].url),
+            url: result[result.length-2].url
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(r => r.json())
+        .then(result => {
+          console.log(result);
+        })
+      })
 
   }
 
