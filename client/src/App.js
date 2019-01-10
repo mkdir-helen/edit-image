@@ -9,6 +9,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Edit from './components/Edit';
 import Photo from './components/Photo';
+import EditPremium from './components/EditPremium';
 
 class App extends Component {
   render() {
@@ -22,6 +23,7 @@ class App extends Component {
         <Route path='/register' component={Register} />
         <Route path='/edit' component={Edit} />
         <Route path='/photo/:photoID' component={Photo} />
+        <Route path='/editspecial/:photoID' component={EditPremium} />
       </div>
       </Router>
     );

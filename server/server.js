@@ -166,6 +166,13 @@ app.get('/photo/:photoID', protectRoute, (req, res) => {
       res.send(result);
     })
 })
+app.get('/editspecial/:photoID', protectRoute, (req, res) => {
+  Image.getById(req.params.photoID)
+    .then(result => {
+      console.log(result);
+      res.send(result);
+    })
+})
 
 
 app.delete('/photo/:photoID', protectRoute, (req, res) => {
