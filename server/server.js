@@ -96,24 +96,23 @@ app.post('/update', upload.single('image'), async (req, res) => {
       )
   }
 })
-app.get('/edit/crop', (req, res) => {
-  
+
+app.post('/delete', (req, res) => {
+  console.log('console loggin important things!!!!!');
+  console.log(req.body.publicID);
+  console.log(req.body.url);
+  cloudinary.v2.uploader.destroy(`${req.body.publicID}`, 
+    {invalidate: true }, function(error, result) {console.log(result, error)});
   if(req.session.user){
-    console.log(req.body.url);
-    console.log(' for the cropping');
+    Image.deleteByUrl(req.body.url)
+      .then(result => {
+        res.send(result);
+      })
   }else{
-    console.log(req.body.url);
-    console.log(' for the cropping');
-  }
-})
-app.post('/edit/crop', (req, res) => {
-  
-  if(req.session.user){
-    console.log(req.body.url);
-    console.log(' for the cropping');
-  }else{
-    console.log(req.body.url);
-    console.log(' for the cropping');
+    Demo.deleteByUrl(req.body.url)
+      .then(result => {
+        res.send(result);
+      })
   }
 })
 
