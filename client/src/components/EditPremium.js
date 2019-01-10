@@ -34,18 +34,17 @@ export default class Edit extends Component {
     }
 
     componentDidMount(){
-        fetch(`/edit`)
+        fetch(`/editspecial/${this.props.match.params.photoID}`)
           .then(r => r.json())
           .then(result => {
             console.log(result);
             this.setState({
-                allfiles: [result],
-                recentfile: [result[result.length-1]],
-                recenturl: result[result.length-1].url,
-                recentname: result[result.length-1].name,
-                public_id: this.getPublicId(result[result.length-1].url)
+                recentfile: result,
+                recenturl: result.url,
+                recentname: result.name,
+                public_id: this.getPublicId(result.url)
             })
-            getBase64ImageFromUrl(result[result.length-1].url)
+            getBase64ImageFromUrl(result.url)
               .then(result => {
                 this.setState({
                   imgSrc: result
@@ -55,7 +54,6 @@ export default class Edit extends Component {
                 })
       } 
 
-   
 
 
   handleImageLoaded = (image) => {

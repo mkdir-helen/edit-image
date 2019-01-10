@@ -20,20 +20,8 @@ export default class Gallery extends Component {
         })
     }
 
-    // this.setState({
-    //   allfiles: [result],
-    //   recentfile: [result[result.length-1]],
-    //   recenturl: result[result.length-1].url,
-    //   recentname: result[result.length-1].name,
-    //   public_id: this.getPublicId(result[result.length-1].url)
-    // })
 
-  //  handleUploadImages = images => {
-  //   const uploads = images.map(image => {
-      
-  //   });
-
-  handleImage = (e) => {
+  handleGetPhoto = (e) => {
     
   }  
   
@@ -44,8 +32,8 @@ export default class Gallery extends Component {
           <div className="gallery">
             {this.state.gallery.map(data => {
               return(
-                <div className="image" key={data.id} onClick={this.handleImage}>
-                  <Link to={`/gallery/${data.id}`}>
+                <div className="image" key={data.id} onClick={this.handleGetPhoto}>
+                  <Link to={`/photo/${data.id}`}>
                     <img src={data.url} />
                   </Link>
                 </div>

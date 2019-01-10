@@ -17,6 +17,7 @@ const Demo = require('./models/Demo');
 const uploadForm = require('./views/UploadForm');
 const loginForm = require('./views/LoginForm');
 const registerForm = require('./views/RegisterForm');
+const publicID = require('./tools/publicID');
 
 app.use(
   session({
@@ -157,6 +158,38 @@ app.get('/:user/gallery', protectRoute, (req,res) => {
       res.send(result);
     });
 });
+
+app.get('/photo/:photoID', protectRoute, (req, res) => {
+  Image.getById(req.params.photoID)
+    .then(result => {
+      console.log(result);
+      res.send(result);
+    })
+})
+app.get('/editspecial/:photoID', protectRoute, (req, res) => {
+  Image.getById(req.params.photoID)
+    .then(result => {
+      console.log(result);
+      res.send(result);
+    })
+})
+
+
+app.delete('/photo/:photoID', protectRoute, (req, res) => {
+  Image.getById(req.params.photoID)
+    .then(result => {
+      console.log(result);
+      const pubID = publicID(result.url);
+      console.log(pubID);
+      cloudinary.v2.uploader.destroy(`${pubID}`, 
+    {invalidate: true }, function(error, result) {console.log(result, error)});
+    })
+  Image.deleteById(req.params.photoID)
+    .then(result => {
+      console.log(result);
+      res.send(result);
+    })
+})
 
 
 
