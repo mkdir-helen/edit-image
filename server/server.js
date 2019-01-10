@@ -133,17 +133,13 @@ app.get('/:user/edit', protectRoute, (req, res) => {
     });
 })
 
-app.get('/nosave', (req,res)=> {
-  res.send('delete it');
-});
-
-app.get('/save', protectRoute, (req,res)=> {
-  res.send('Please login/register');
-});
-
-app.get('/auto/save', (req,res)=> {
-  res.send('go to photo gallery maybe');
-});
+app.get('/active', (req, res) => {
+  if(req.session.user){
+    res.send(true);
+  }else{
+    res.send(false);
+  }
+})
 
 app.get('/gallery', protectRoute, (req, res) => {
   console.log(req.session);
@@ -192,13 +188,13 @@ app.delete('/photo/:photoID', protectRoute, (req, res) => {
 
 
 
-app.get('/:photo', (req,res)=> {
-  res.send('get the photo by itself');
-});
+// app.get('/:photo', (req,res)=> {
+//   res.send('get the photo by itself');
+// });
 
-app.get('/:photo/edit', (req,res)=> {
-  res.send('edit photo');
-});
+// app.get('/:photo/edit', (req,res)=> {
+//   res.send('edit photo');
+// });
 
 app.get('/login', (req,res) =>{
   res.send(loginForm());
@@ -235,7 +231,6 @@ app.post('/register', (req,res) => {
     req.session.user = user;
     // console.log(req.session);
     // req.session.returnTo = req.originalUrl;
-    res.json({message: 'this is working'});
     res.redirect('/gallery');
   })
 });
@@ -247,9 +242,10 @@ app.post('/register', (req,res) => {
 
 
 
-app.get('/logout', (req,res)=> {
+app.post('/logout', (req,res)=> {
   req.session.destroy();
   // req.session.returnTo = null;
+
   res.redirect('/');
 })
 

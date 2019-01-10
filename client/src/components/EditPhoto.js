@@ -169,10 +169,11 @@ export default class EditPhoto extends Component {
       <div>
           <h1>Edit Photo</h1>
           <div>
+              <div className="cloudPreview"></div>
             <Image cloudName="melonimage" 
             publicId={this.props.public_id} 
             ref={this.cloudinaryImageRef}
-            className='cloudPreview'
+            className='cloudPreviewImg'
             >
               <Transformation crop="fit" effect={isnotEmpty} radius={this.state.radius} opacity={this.state.opacity} />
               <Transformation overlay={`text:${this.state.fontFamily}_${this.state.fontSize}:${this.state.text}`} 
