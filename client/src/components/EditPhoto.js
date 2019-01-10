@@ -67,17 +67,41 @@ export default class EditPhoto extends Component {
             this.setState({
                 CloudBase64: result
             }, () => {
-                console.log(this.state.CloudBase64);
-                const myFilename = this.props.recentname + '(crop)' + fileExtension;
-                // const myNewCroppedFile = base64StringtoFile(CloudBase64, myFilename);
-                // // console.log(myNewCroppedFile);
-                downloadBase64File(this.state.CloudBase64, myFilename);
+                this.downloadImage(fileExtension);
+                console.log('image downloaded');
+                this.deleteImage();
+                console.log('image deleted');
+            }
+            )
 
-            })
         })
-            .catch(err => console.error(err));
 
     }
+
+    downloadImage = (fileExtension) => {
+        const myFilename = this.props.recentname + '(crop)' + fileExtension;
+        downloadBase64File(this.state.CloudBase64, myFilename);
+    }
+    deleteImage() {
+        if (this.state.active === false) {
+            fetch(`/delete`, {
+                method: `POST`,
+                body: JSON.stringify({
+                    publicID: this.props.public_id,
+                    url: this.props.recenturl
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(r => r.json())
+                .then(result => {
+                    console.log(result);
+                    this.props.history.push('/login');
+                })
+        }
+    }
+
     handleSave = (e) => {
         const CloudRef = this.cloudinaryImageRef.current;
         const imgSrc = this.props.imgSrc;
@@ -179,19 +203,22 @@ export default class EditPhoto extends Component {
             isnotEmpty = null;
         }
         const isLoggedIn = this.state.active;
+        const thereIsText = this.state.text !== "";
         return (
             <div>
                 <h1>Edit Photo</h1>
                 <div className="cloudeditor">
                     <div className="cloudPreview">
-                        <Image cloudName="melonimage"
+                        <Image cloudName={process.env.REACT_APP_CLOUD_NAME}
                             publicId={this.props.public_id}
                             ref={this.cloudinaryImageRef}
                             className='cloudPreviewImg'
                         >
                             <Transformation crop="fit" effect={isnotEmpty} radius={this.state.radius} opacity={this.state.opacity} />
-                            <Transformation overlay={`text:${this.state.fontFamily}_${this.state.fontSize}:${this.state.text}`}
-                                x={this.state.x} y={this.state.y} color={this.state.coRGB} />
+                            {thereIsText &&
+                                <Transformation overlay={`text:${this.state.fontFamily}_${this.state.fontSize}:${this.state.text}`}
+                                    x={this.state.x} y={this.state.y} color={this.state.coRGB} />
+                            }
                             <Transformation angle={this.state.angle} />
                         </Image>
                     </div>
