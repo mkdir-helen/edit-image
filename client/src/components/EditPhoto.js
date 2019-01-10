@@ -92,8 +92,24 @@ export default class EditPhoto extends Component {
         .then(r => r.json())
         .then(result => {
             console.log(result);
-            this.props.history.push('/gallery');
-        });
+            fetch(`/delete`,{
+                method: `POST`,
+                body: JSON.stringify({
+                  publicID: this.getPublicId(result[result.length-2].url),
+                  url: result[result.length-2].url
+                }),
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              })
+              .then(r => r.json())
+              .then(result => {
+                console.log(result);
+              })
+        })
+        .then(
+            this.props.history.push('/gallery')
+        )
 
       })
     })
