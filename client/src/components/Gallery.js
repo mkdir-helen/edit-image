@@ -10,6 +10,10 @@ export default class Gallery extends Component {
     }
 
     componentDidMount(){
+      this.getPhotos();
+      setInterval(this.getPhotos, 2000);
+    }
+    getPhotos = () => {
       fetch(`/gallery`)
         .then(r => r.json())
         .then(resultArray => {
