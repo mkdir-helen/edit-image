@@ -95,13 +95,14 @@ export default class Home extends Component {
     return (
       <div>
           <h1>Home sweet home</h1>  
+          <h3>Upload an image to start editing!</h3>
           <form action="/upload" method="post" encType="multipart/form-data" onSubmit={(e) => this.onSubmit(e)}>
               <div> 
-                  <label htmlFor="title">Title</label>
+                  <label htmlFor="title">Name of Image</label>
                   <input type="text" name="title" id="title" onChange={(e) => this.getTitle(e)} /> 
               </div>
               <div>
-                  <label htmlFor="image">Image</label>
+                  <label htmlFor="image"></label>
                   <input type="file" name="image" id="image" onChange={(e) => this.getImage(e)} />
               </div>
               <button type="submit">Upload Image</button>
