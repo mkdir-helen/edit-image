@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 export default class Nav extends Component {
     constructor(props) {
@@ -15,17 +15,17 @@ export default class Nav extends Component {
     }
     handleActiveUser = () => {
         fetch(`/active`)
-        .then(r => r.json())
-        .then(result => {
-          console.log(result);
-          this.setState({
-            active: result
-          })
-        })
+            .then(r => r.json())
+            .then(result => {
+                console.log(result);
+                this.setState({
+                    active: result
+                })
+            })
     }
     handleLogOut = () => {
         fetch(`/logout`,
-        {method: 'POST'}
+            { method: 'POST' }
         )
             .then(r => r.json())
             .then(result => {
@@ -37,39 +37,39 @@ export default class Nav extends Component {
             })
     }
 
-  render() {
-      const isLoggedIn = this.state.active;
-    return (
-      <div className="NavDiv">
-        <ul className="NavUl">
-            <li>
-                <Link to="/" onClick={this.handleActiveUser}>Home</Link>
-            </li>
-            {isLoggedIn ? (
-                <>
+    render() {
+        const isLoggedIn = this.state.active;
+        return (
+            <div className="NavDiv">
+                <ul className="NavUl">
                     <li>
-                        <Link to="/gallery" onClick={this.handleActiveUser}>Gallery</Link>
+                        <Link to="/" onClick={this.handleActiveUser}>Home</Link><hr className="hr" />
                     </li>
-                    <li>
-                        <Link to="/" 
-                        onClick={this.handleLogOut}
-                        >Logout</Link>
-                    </li>
-                </>
-            ):(
-                <>
-                    <li>
-                        <Link to="/login" 
-                        onClick={this.handleActiveUser}
-                        >Login</Link>
-                    </li>
-                    <li>
-                        <Link to="/register" onClick={this.handleActiveUser}>Register</Link>
-                    </li>
-                </>
-            )}
-        </ul>
-      </div>
-    )
-  }
+                    {isLoggedIn ? (
+                        <>
+                            <li>
+                                <Link to="/gallery" onClick={this.handleActiveUser}>Gallery</Link><hr className="hr" />
+                            </li>
+                            <li>
+                                <Link to="/"
+                                    onClick={this.handleLogOut}
+                                >Logout</Link>
+                            </li>
+                        </>
+                    ) : (
+                            <>
+                                <li>
+                                    <Link to="/login"
+                                        onClick={this.handleActiveUser}
+                                    >Login</Link><hr className="hr" />
+                                </li>
+                                <li>
+                                    <Link to="/register" onClick={this.handleActiveUser}>Register</Link>
+                                </li>
+                            </>
+                        )}
+                </ul>
+            </div>
+        )
+    }
 }

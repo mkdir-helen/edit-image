@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 export default class Login extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             username: '',
@@ -20,44 +20,45 @@ export default class Login extends Component {
                 'Content-Type': 'application/json'
             }
         })
-        .then(r => r.json())
-        .then(result => {
-            console.log(result);
-            this.props.history.push('/gallery');
-        })
-        .catch(err => {
-            console.log(err);
-        });
+            .then(r => r.json())
+            .then(result => {
+                console.log(result);
+                this.props.history.push('/gallery');
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
     handleUsername = (e) => {
-        this.setState({username: e.target.value});
+        this.setState({ username: e.target.value });
     }
     handlePassword = (e) => {
-        this.setState({password: e.target.value});
+        this.setState({ password: e.target.value });
     }
-    render(){
+    render() {
         return (
-          <form action="/login" 
-          method="POST" 
-          className="login-container"
-          onSubmit={this.handleSubmit}
-          >
-              <h3>Log in:</h3>
-              <label>Username: </label>
-              <input type='text' 
-              name='username'
-              onChange={this.handleUsername}
-              value={this.state.username}
-               />
-              <label>Password: </label>
-              <input type='password' 
-              name='password'
-              onChange={this.handlePassword}
-              value={this.state.password}
-               />
-              <p><button type="submit">Login</button></p>
-              <p>Not a member? <a href="/register">Sign up now</a></p> 
-          </form>
+            <form action="/login"
+                method="POST"
+                className="login-container"
+                onSubmit={this.handleSubmit}
+            >
+                <h1>Log In</h1>
+                <label>Username: </label>
+                <input type='text'
+                    name='username'
+                    onChange={this.handleUsername}
+                    value={this.state.username}
+                />
+                <br /><br />
+                <label>Password: </label>
+                <input type='password'
+                    name='password'
+                    onChange={this.handlePassword}
+                    value={this.state.password}
+                />
+                <p><button type="submit">Login</button></p>
+                <p>Not a member? <a href="/register">Sign up now</a></p>
+            </form>
         );
     }
 }

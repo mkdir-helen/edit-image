@@ -45,32 +45,36 @@ html,body{
 }
 
 /* Nav section */
-
+.hr{
+  margin-left: -50px;
+}
 .NavUl {
   list-style-type: none;
-  /* width: 50%; */
   margin: 0 auto;
   /* display: none; */
 }
 .NavUl a{
   text-decoration: none;
   color: white;
-  border-bottom: 1px solid white;
-  /* border: 1px solid white; */
-  /* padding: 3px 200px; */
+  /* border-bottom: 1px solid white; */
+  border: 1px solid white;
+  margin: auto;
 }
 .NavUl li{
   margin: 8px auto;
 
 }
-.NavDiv:hover.NavUl{
+/* .NavDiv:hover.NavUl{
   display: block;
-}
+} */
 .NavDiv {
   background: rgb(118, 3, 39);
   padding: 1px 0;
 }
 @media only screen and (min-width: 500px){
+  .hr{
+    display:none;
+  }
   .NavUl a:hover{
     background: rgba(255, 255, 255, 0.274);
   }
