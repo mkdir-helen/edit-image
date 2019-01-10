@@ -1,3 +1,16 @@
+html{
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+html,body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
 .App {
   text-align: center;
 }
@@ -36,22 +49,46 @@
 .NavUl {
   list-style-type: none;
   /* width: 50%; */
-  display: flex;
-  justify-content: start;
+  margin: 0 auto;
+  /* display: none; */
 }
 .NavUl a{
   text-decoration: none;
   color: white;
+  border-bottom: 1px solid white;
   /* border: 1px solid white; */
-  padding: 24px 21px;
+  /* padding: 3px 200px; */
 }
-.NavUl a:hover{
-  background: rgba(255, 255, 255, 0.274);
-}
+.NavUl li{
+  margin: 8px auto;
 
+}
+.NavDiv:hover.NavUl{
+  display: block;
+}
 .NavDiv {
   background: rgb(118, 3, 39);
-  padding: 10px 0;
+  padding: 1px 0;
+}
+@media only screen and (min-width: 500px){
+  .NavUl a:hover{
+    background: rgba(255, 255, 255, 0.274);
+  }
+  .NavUl{
+    display: flex;
+    justify-content: start !important;
+  }
+  .NavUl a{
+    text-decoration: none;
+    color: white;
+    padding: 24px 21px;
+  }
+  .NavUl li{
+    margin: 8px 0;
+  }
+  .NavDiv{
+    padding: 10px 0;
+  }
 }
 
 /* Edit page */
