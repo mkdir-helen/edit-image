@@ -8,6 +8,7 @@ app.use(bodyParser.json());
 const cloudinary = require('cloudinary');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
+const uuidv4 = require('uuid/v4');
 require('./handlers/cloudinary');
 const upload = require('./handlers/multer');
 const db = require('./models/db');
@@ -33,17 +34,17 @@ app.use(
   })
 );
 
-app.use((req,res, next) => {
-  let isLoggedIn = req.session.user ? true: false;
+app.use((req, res, next) => {
+  let isLoggedIn = req.session.user ? true : false;
   console.log(isLoggedIn);
   next();
 });
 
-function protectRoute(req, res, next){
-  let isLoggedIn = req.session.user ? true: false;
-  if(isLoggedIn){
+function protectRoute(req, res, next) {
+  let isLoggedIn = req.session.user ? true : false;
+  if (isLoggedIn) {
     next();
-  }else{
+  } else {
     res.redirect('/login');
   }
 }
@@ -57,36 +58,38 @@ app.post('/upload', upload.single('image'), async (req, res) => {
   console.log(req.file);
   console.log('req.file');
   let date = new Date().toISOString();
-  let title = req.body.title ? req.body.title : req.file.originalname.substring(0, req.file.originalname.length-4);
+  let uuidtitle = req.body.title + uuidv4();
+  let uuidnontitle = req.file.originalname.substring(0, req.file.originalname.length - 4) + uuidv4();
+  let title = req.body.title ? req.body.title : uuidnontitle;
   let folder = req.session.user ? req.session.user.username : 'demo';
-  const result = await cloudinary.v2.uploader.upload(req.file.path,{public_id: `${folder}/${title}`},
-  function(error, result){console.log(result, error)}
+  const result = await cloudinary.v2.uploader.upload(req.file.path, { public_id: `${folder}/${title}` },
+    function (error, result) { console.log(result, error) }
   );
-  if(req.session.user){
+  if (req.session.user) {
     Image.addImage(title, result.secure_url, req.session.user.id)
-    .then(result => {console.log(result); res.redirect('/edit');});
-  }else{
+      .then(result => { console.log(result); res.redirect('/edit'); });
+  } else {
     Demo.addDemo(title, folder, result.secure_url, null)
-    .then(result => {console.log(result); res.redirect('/edit');});
+      .then(result => { console.log(result); res.redirect('/edit'); });
   }
 });
 
 app.post('/update', upload.single('image'), async (req, res) => {
-  
-  const result = await cloudinary.v2.uploader.upload(req.file.path,{public_id: req.body.public_id},
-    function(error, result){console.log(result, error)}
+
+  const result = await cloudinary.v2.uploader.upload(req.file.path, { public_id: req.body.public_id },
+    function (error, result) { console.log(result, error) }
   );
   // const result = await cloudinary.v2.uploader.upload(req.file.path,
   //   {public_id: req.body.public_id, invalidate: true},
   //   function(error, result) {console.log(result, error)});
 
-  if(req.session.user){
+  if (req.session.user) {
     Image.addImage(req.body.title, result.secure_url, req.session.user.id)
       .then(Image.getByUser(req.session.user.id)
         .then(result => {
           res.send(result);
         }))
-  }else{
+  } else {
     Demo.addDemo(req.body.title, req.body.folder, result.secure_url, null)
       .then(
         Demo.getAll()
@@ -101,14 +104,14 @@ app.post('/delete', (req, res) => {
   console.log('console loggin important things!!!!!');
   console.log(req.body.publicID);
   console.log(req.body.url);
-  cloudinary.v2.uploader.destroy(`${req.body.publicID}`, 
-    {invalidate: true }, function(error, result) {console.log(result, error)});
-  if(req.session.user){
+  cloudinary.v2.uploader.destroy(`${req.body.publicID}`,
+    { invalidate: true }, function (error, result) { console.log(result, error) });
+  if (req.session.user) {
     Image.deleteByUrl(req.body.url)
       .then(result => {
         res.send(result);
       })
-  }else{
+  } else {
     Demo.deleteByUrl(req.body.url)
       .then(result => {
         res.send(result);
@@ -117,9 +120,9 @@ app.post('/delete', (req, res) => {
 })
 
 app.get('/edit', (req, res) => {
-  if(req.session.user){
+  if (req.session.user) {
     res.redirect(`/${req.session.user.username}/edit`);
-  }else{
+  } else {
     Demo.getAll()
       .then(result => {
         res.send(result);
@@ -133,24 +136,20 @@ app.get('/:user/edit', protectRoute, (req, res) => {
     });
 })
 
-app.get('/nosave', (req,res)=> {
-  res.send('delete it');
-});
-
-app.get('/save', protectRoute, (req,res)=> {
-  res.send('Please login/register');
-});
-
-app.get('/auto/save', (req,res)=> {
-  res.send('go to photo gallery maybe');
-});
+app.get('/active', (req, res) => {
+  if (req.session.user) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
+})
 
 app.get('/gallery', protectRoute, (req, res) => {
   console.log(req.session);
   res.redirect(`/${req.session.user.username}/gallery`);
 });
 
-app.get('/:user/gallery', protectRoute, (req,res) => {
+app.get('/:user/gallery', protectRoute, (req, res) => {
   console.log(req.params.user);
   Image.getByUser(req.session.user.id)
     .then(result => {
@@ -180,8 +179,8 @@ app.delete('/photo/:photoID', protectRoute, (req, res) => {
       console.log(result);
       const pubID = publicID(result.url);
       console.log(pubID);
-      cloudinary.v2.uploader.destroy(`${pubID}`, 
-    {invalidate: true }, function(error, result) {console.log(result, error)});
+      cloudinary.v2.uploader.destroy(`${pubID}`,
+        { invalidate: true }, function (error, result) { console.log(result, error) });
     })
   Image.deleteById(req.params.photoID)
     .then(result => {
@@ -192,52 +191,51 @@ app.delete('/photo/:photoID', protectRoute, (req, res) => {
 
 
 
-app.get('/:photo', (req,res)=> {
-  res.send('get the photo by itself');
-});
+// app.get('/:photo', (req,res)=> {
+//   res.send('get the photo by itself');
+// });
 
-app.get('/:photo/edit', (req,res)=> {
-  res.send('edit photo');
-});
+// app.get('/:photo/edit', (req,res)=> {
+//   res.send('edit photo');
+// });
 
-app.get('/login', (req,res) =>{
+app.get('/login', (req, res) => {
   res.send(loginForm());
 })
 
-app.post('/login', (req,res) => {
+app.post('/login', (req, res) => {
   User.getByUsername(req.body.username)
     .then(user => {
       let didMatch = user.checkPassword(req.body.password, user.password);
-      if(didMatch){
+      if (didMatch) {
         req.session.user = user;
         console.log(req.session.user);
         // req.session.returnTo = req.originalUrl;
         // console.log(req.session.returnTo);
         res.redirect('/gallery');
-      }else{
+      } else {
         res.redirect('/login');
       }
     });
 });
 
-app.get('/register', (req,res) => {
+app.get('/register', (req, res) => {
   res.send(registerForm());
 })
 
-app.post('/register', (req,res) => {
+app.post('/register', (req, res) => {
   User.addUser(
     req.body.name,
     req.body.email,
     req.body.username,
     req.body.password
   )
-  .then(user => {
-    req.session.user = user;
-    // console.log(req.session);
-    // req.session.returnTo = req.originalUrl;
-    res.json({message: 'this is working'});
-    res.redirect('/gallery');
-  })
+    .then(user => {
+      req.session.user = user;
+      // console.log(req.session);
+      // req.session.returnTo = req.originalUrl;
+      res.redirect('/gallery');
+    })
 });
 
 
@@ -247,9 +245,10 @@ app.post('/register', (req,res) => {
 
 
 
-app.get('/logout', (req,res)=> {
+app.post('/logout', (req, res) => {
   req.session.destroy();
   // req.session.returnTo = null;
+
   res.redirect('/');
 })
 
@@ -320,5 +319,5 @@ app.get('/logout', (req,res)=> {
 // })
 
 app.listen(5000, () => {
-    console.log('listening on port 5000');
-  });
+  console.log('listening on port 5000');
+});

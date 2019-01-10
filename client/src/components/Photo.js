@@ -38,17 +38,7 @@ export default class Photo extends Component {
               .catch(err => console.error(err));
           })
     }
-    // componentDidUpdate(){
-    //     fetch(`/gallery/${this.props.match.params.photoID}`)
-    //       .then(r => r.json())
-    //       .then(result => {
-    //         console.log(result);
-    //         this.setState({
-    //           file: result,
-    //           fileURL: result.url
-    //         })
-    //       })
-    //   }
+    
 
     handleEdit = (e) => {
 
@@ -96,6 +86,3 @@ export default class Photo extends Component {
 }
 
 
-{/* <Link to={`/photo/${data.id}`}>
-                    <img src={data.url} />
-                  </Link> */}

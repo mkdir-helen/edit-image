@@ -118,10 +118,69 @@ canvas{
   grid-template-columns: 1fr 1fr; */
 }
 
-/* further edits */
-.cloudPreview{
+/* Cloudinaryfurther edits */
+
+.cloudPreviewImg{
   width: 90%;
   /* margin: 0 auto; */
+}
+.cloudPreview{
+  width: 90%;
+  /* border: 1px solid red; */
+  margin: 0 auto;
+  background: black;
+  padding: 15px 0;
+}
+.editWrapper{
+  width: 100%;
+  background: rgba(128, 128, 128, 0.043);
+  margin: 0 auto;
+}
+.editSection{
+  /* border: 1px solid green; */
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+}
+.editSection button{
+  margin-bottom: 5%;
+}
+.editImage{
+  /* border: 1px solid pink; */
+  margin: 5% auto;
+}
+.editText{
+  margin-bottom: 10%;
+}
+@media only screen and (min-width: 500px){
+  .cloudeditor{
+    display: flex;
+    /* border: 1px solid blue; */
+  }
+  .editImage{
+    /* border: 1px solid pink; */
+    margin: 10% auto;
+  }
+  .editWrapper{
+    /* border: 1px solid purple; */
+    width: 70%;
+    background: rgba(128, 128, 128, 0.043);
+    margin: 0 auto;
+  }
+  .editSection{
+    /* border: 1px solid green; */
+    width: 70%;
+    margin: 20% auto;
+    padding: 10px;
+    background: white;
+  }
+  .cloudPreview{
+    width: 70%;
+    /* border: 1px solid red; */
+    margin-right: 10px;
+    background: black;
+    padding: 15px 0;
+  }
 }
 
 /* Home */
