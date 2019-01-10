@@ -50,10 +50,12 @@ html,body{
   list-style-type: none;
   /* width: 50%; */
   margin: 0 auto;
+  /* display: none; */
 }
 .NavUl a{
   text-decoration: none;
   color: white;
+  border-bottom: 1px solid white;
   /* border: 1px solid white; */
   /* padding: 3px 200px; */
 }
@@ -61,15 +63,17 @@ html,body{
   margin: 8px auto;
 
 }
-.NavUl a:hover{
-  background: rgba(255, 255, 255, 0.274);
+.NavDiv:hover.NavUl{
+  display: block;
 }
-
 .NavDiv {
   background: rgb(118, 3, 39);
   padding: 1px 0;
 }
 @media only screen and (min-width: 500px){
+  .NavUl a:hover{
+    background: rgba(255, 255, 255, 0.274);
+  }
   .NavUl{
     display: flex;
     justify-content: start !important;
@@ -78,6 +82,9 @@ html,body{
     text-decoration: none;
     color: white;
     padding: 24px 21px;
+  }
+  .NavUl li{
+    margin: 8px 0;
   }
   .NavDiv{
     padding: 10px 0;
