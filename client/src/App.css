@@ -43,15 +43,17 @@ html,body{
     transform: rotate(360deg);
   }
 }
-
+/* ///////////////// */
 /* Nav section */
+/* ////////////////// */
 .dots:after{
   content: '\2807';
   font-size: 40px;
   color: white;
   margin-left: 250px;
   /* border: 1px solid white; */
-  padding: 2px;  
+  padding: 2px; 
+  cursor: pointer; 
 }
 .hr{
   margin-left: -50px;
@@ -66,8 +68,15 @@ html,body{
   color: white;
   /* border-bottom: 1px solid white; */
   /* border: 1px solid white; */
+  padding: 4px 155px;
   margin: auto;
+  margin-left: -40px;
 }
+
+.NavUl a:hover, .NavUl a:active {
+  color: gold;
+}
+
 .NavUl li{
   margin: 8px auto;
 
@@ -80,6 +89,9 @@ html,body{
   padding: 1px 0;
 }
 @media only screen and (min-width: 500px){
+  .dots:after{
+    display: none;
+  }
   .hr{
     display:none;
   }
@@ -94,6 +106,7 @@ html,body{
     text-decoration: none;
     color: white;
     padding: 24px 21px;
+    margin: auto;
   }
   .NavUl li{
     margin: 8px 0;
@@ -102,8 +115,9 @@ html,body{
     padding: 10px 0;
   }
 }
-
+/* ///////////////// */
 /* Edit page */
+/* //////////////// */
 /* cropping */
 canvas{
   width: 100%;
@@ -123,11 +137,43 @@ canvas{
   margin: 0 auto;
   /* background: white; */
 }
-.cropimages .cropmain{
+.cropmain{
   width: 90%;
   margin: 0 auto;
   /* display: grid;
   grid-template-columns: 1fr 1fr; */
+}
+@media only screen and (min-width: 900px){
+  canvas{
+    width: 90%;
+    margin: 0 auto;
+  }
+  .preview{
+    margin: 10px auto;
+    padding: 10px 15px;
+    width: 70%;
+    background: #d0ff00;
+  
+  }
+  .cropimages{
+    display:flex;
+    background: black;
+  }
+  .ReactCrop__image{
+    width:90%;
+    margin: 0 auto 15px auto;
+  }
+  .cropmain{
+    width:90%;
+    margin: 50px auto;
+  }
+  .preview{
+    margin: 0 auto;
+  }
+  .cropmode{
+    width: 90%;
+    margin: 0 auto;
+  }
 }
 
 /* Cloudinaryfurther edits */
@@ -194,10 +240,68 @@ canvas{
     padding: 15px 0;
   }
 }
-
+/* /////////////// */
 /* Home */
+/* /////////////// */
+.homeimageWrap{
+  margin-top: 20px;
+  /* padding: 20px auto; */
+  background: gold;
+ 
+}
+.editbutton{
+  color: #2f00ff;
+  background: white;
+  border: 1px solid #2f00ff;
+  margin: 5px auto;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
 .homeimage{
   max-width: 300px;
+  margin-bottom: 10px;
+}
+
+@media only screen and (min-width: 500px){
+  .homeimageWrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.uploadForm button{
+  border: 1px solid silver;
+}
+.uploader {
+  margin-left: 60px;
+  margin-bottom: 10px;
+  /* background: red; */
+
+}
+.uploader input {
+  color: rgb(108, 108, 108);
+}
+
+
+/* Register */
+.registerForm button {
+  border: 1px solid #034c76;
+  background: #277603;
+  color: white;
+}
+.registerForm input{
+  border: 1px solid grey;
+}
+.login-container button {
+  border: 1px solid #277603;
+  background: #034c76;
+  color: white;
+}
+.login-container input {
+  border: 1px solid grey;
 }
 
 /* Gallery */

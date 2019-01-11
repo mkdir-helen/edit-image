@@ -5,14 +5,24 @@ export default class Nav extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            active: false
+            active: false,
+            dots: false,
+            width: window.innerWidth
         }
     }
 
     componentDidMount = () => {
+        window.addEventListener('resize', this.handleWindowSizeChange);
         this.handleActiveUser();
         setInterval(this.handleActiveUser, 1000);
     }
+    componentWillUnmount = () => {
+        window.removeEventListener('resize', this.handleWindowSizeChange);
+    }
+    handleWindowSizeChange = () => {
+        this.setState({ width: window.innerWidth });
+    }
+
     handleActiveUser = () => {
         fetch(`/active`)
             .then(r => r.json())
@@ -52,6 +62,7 @@ export default class Nav extends Component {
 
     render() {
         const isLoggedIn = this.state.active;
+        const isMobile = this.state.width <= 500;
         return (
             <div className="NavDiv">
                 <ul className="NavUl">
@@ -59,7 +70,7 @@ export default class Nav extends Component {
                         onClick={this.showMenu}
                     >
                     </div>
-                    {this.state.dots &&
+                    {(this.state.dots || !isMobile) &&
                         (<>
                             <hr className="hr" />
                             <li>
