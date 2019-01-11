@@ -247,6 +247,7 @@ canvas{
   margin-top: 20px;
   /* padding: 20px auto; */
   background: gold;
+  max-width: 300px;
  
 }
 .editbutton{
@@ -261,15 +262,28 @@ canvas{
   -o-border-radius: 10px;
 }
 .homeimage{
-  max-width: 300px;
+  /* max-width: 300px; */
+  width: 90%;
   margin-bottom: 10px;
 }
 
-@media only screen and (min-width: 500px){
+@media only screen and (min-width: 360px){
+
   .homeimageWrap{
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* max-width: 500px; */
+    margin: 20px auto;
+  }
+}
+
+@media only screen and (min-width: 500px){
+  .homeimage{
+    /* max-width: 50%; */
+  }
+  .homeimageWrap{
+    max-width: 500px;
   }
 }
 .uploadForm button{
@@ -332,7 +346,7 @@ canvas{
 /* Individual photos */
 .photoWrapper{
   background: black;
-  padding-bottom: 100px;
+  padding-bottom: 100%;
 }
 .photoimage{
   width: 80%;
@@ -344,10 +358,22 @@ canvas{
 .buttons{
   margin: 0 auto;
   padding-top: 20px;
+  display: flex;
+  justify-content: center;
 }
-.buttons button{
-  margin: 0 50px;
+.buttons div button{
+  margin: 0 20px;
   background: white;
   color: #277603;
   border: 2px solid #277603;
+}
+
+@media only screen and (min-width: 500px){
+  .buttons button{
+  margin: 0 50px;
+  }
+  .photoWrapper{
+    background: black;
+    padding-bottom: 100px;
+  }
 }

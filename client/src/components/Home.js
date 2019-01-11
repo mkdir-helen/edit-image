@@ -97,21 +97,23 @@ export default class Home extends Component {
       <div>
         <h1>Home sweet home</h1>
         <h3>Upload an image to start editing!</h3>
-        <form action="/upload" method="post" encType="multipart/form-data" onSubmit={(e) => this.onSubmit(e)}>
-          <div>
-            <label htmlFor="title">Name of Image</label>
+        <form action="/upload" method="post"
+          encType="multipart/form-data" onSubmit={(e) => this.onSubmit(e)}
+          className="uploadForm"
+        >
+          <div className="filetitle">
+            <label htmlFor="title">Enter name of image: </label><br />
             <input type="text" name="title" id="title" onChange={(e) => this.getTitle(e)} />
           </div>
-          <div>
-            <label htmlFor="image"></label>
+          <div className="uploader">
             <input type="file" name="image" id="image" onChange={(e) => this.getImage(e)} />
           </div>
           <button type="submit">Upload Image</button>
         </form>
-        {this.state.willEdit &&
-          <button onClick={this.handleEdit}>Edit Image</button>
-        }
-        <div >
+        <div className="homeimageWrap">
+          {this.state.willEdit &&
+            <button onClick={this.handleEdit} className="editbutton">Edit Image</button>
+          }
           <img src={this.state.recenturl}
             className="homeimage"
             onLoad={this.handleEditButton}
