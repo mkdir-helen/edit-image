@@ -45,6 +45,14 @@ html,body{
 }
 
 /* Nav section */
+.dots:after{
+  content: '\2807';
+  font-size: 40px;
+  color: white;
+  margin-left: 250px;
+  /* border: 1px solid white; */
+  padding: 2px;  
+}
 .hr{
   margin-left: -50px;
 }
@@ -57,7 +65,7 @@ html,body{
   text-decoration: none;
   color: white;
   /* border-bottom: 1px solid white; */
-  border: 1px solid white;
+  /* border: 1px solid white; */
   margin: auto;
 }
 .NavUl li{

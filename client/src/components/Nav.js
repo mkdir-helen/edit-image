@@ -31,10 +31,23 @@ export default class Nav extends Component {
             .then(result => {
                 console.log(result);
                 this.setState({
-                    active: false
+                    active: false,
+                    dots: false
                 })
                 this.props.history.push('/');
             })
+    }
+    showMenu = (e) => {
+        e.preventDefault();
+        if (!this.state.dots) {
+            this.setState({
+                dots: true
+            })
+        } else {
+            this.setState({
+                dots: false
+            })
+        }
     }
 
     render() {
@@ -42,32 +55,41 @@ export default class Nav extends Component {
         return (
             <div className="NavDiv">
                 <ul className="NavUl">
-                    <li>
-                        <Link to="/" onClick={this.handleActiveUser}>Home</Link><hr className="hr" />
-                    </li>
-                    {isLoggedIn ? (
-                        <>
+                    <div className="dots"
+                        onClick={this.showMenu}
+                    >
+                    </div>
+                    {this.state.dots &&
+                        (<>
+                            <hr className="hr" />
                             <li>
-                                <Link to="/gallery" onClick={this.handleActiveUser}>Gallery</Link><hr className="hr" />
+                                <Link to="/" onClick={this.handleActiveUser}>Home</Link><hr className="hr" />
                             </li>
-                            <li>
-                                <Link to="/"
-                                    onClick={this.handleLogOut}
-                                >Logout</Link>
-                            </li>
-                        </>
-                    ) : (
-                            <>
-                                <li>
-                                    <Link to="/login"
-                                        onClick={this.handleActiveUser}
-                                    >Login</Link><hr className="hr" />
-                                </li>
-                                <li>
-                                    <Link to="/register" onClick={this.handleActiveUser}>Register</Link>
-                                </li>
-                            </>
-                        )}
+                            {isLoggedIn ? (
+                                <>
+                                    <li>
+                                        <Link to="/gallery" onClick={this.handleActiveUser}>Gallery</Link><hr className="hr" />
+                                    </li>
+                                    <li>
+                                        <Link to="/"
+                                            onClick={this.handleLogOut}
+                                        >Logout</Link>
+                                    </li>
+                                </>
+                            ) : (
+                                    <>
+                                        <li>
+                                            <Link to="/login"
+                                                onClick={this.handleActiveUser}
+                                            >Login</Link><hr className="hr" />
+                                        </li>
+                                        <li>
+                                            <Link to="/register" onClick={this.handleActiveUser}>Register</Link>
+                                        </li>
+                                    </>
+                                )}
+                        </>)
+                    }
                 </ul>
             </div>
         )
