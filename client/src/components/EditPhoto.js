@@ -231,11 +231,11 @@ export default class EditPhoto extends Component {
                                     <input type="number" name="opacity" id="" min="0" max="100" placeholder="100" onChange={this.handleOpacityChange} />
                                 </div>
                                 <div className="angle">
-                                    <label htmlFor="angle">Angle</label>
+                                    <label htmlFor="angle">Rotation</label>
                                     <input type="number" name="angle" id="" min="-360" max="360" placeholder="0" onChange={this.handleAngleChange} />
                                 </div>
                                 <div className="radius">
-                                    <label htmlFor="radius">Radius</label>
+                                    <label htmlFor="radius">Corner Radius</label>
                                     <input type="number" name="radius" id="" min="0" max="100" placeholder="0" onChange={this.handleRadiusChange} />
 
                                 </div>
@@ -244,7 +244,7 @@ export default class EditPhoto extends Component {
                                     <select name="picture_effect" onChange={this.handleEffectChange}>
                                         <option value="">None</option>
                                         <option value="sepia">Sepia</option>
-                                        <option value="negate">Negate</option>
+                                        <option value="negate">Invert</option>
                                         <option value="grayscale">Grayscale</option>
                                         <option value="blackwhite">Blackwhite</option>
                                         <option value="cartoonify">Cartoonify</option>
@@ -304,6 +304,7 @@ export default class EditPhoto extends Component {
                                         <option value="brown">Brown</option>
                                         <option value="yellow">Yellow</option>
                                         <option value="orange">Orange</option>
+                                        <option value="white">White</option>
                                         <option value="grey">Grey</option>
                                         <option value="silver">Silver</option>
                                         <option value="gold">Gold</option>
