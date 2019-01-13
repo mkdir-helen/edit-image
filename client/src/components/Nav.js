@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
+import acorn from '../images/acorn_white.png';
 export default class Nav extends Component {
     constructor(props) {
         super(props);
@@ -66,6 +66,9 @@ export default class Nav extends Component {
         return (
             <div className="NavDiv">
                 <ul className="NavUl">
+                    <div className="acornlogo">
+                        <img src={acorn} alt="" />
+                    </div>
                     <div className="dots"
                         onClick={this.showMenu}
                     >

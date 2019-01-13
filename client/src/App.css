@@ -48,13 +48,15 @@ html,body{
 /* ////////////////// */
 .dots:after{
   content: '\2807';
-  font-size: 40px;
+  font-size: 60px;
   color: white;
-  margin-left: 250px;
+  margin-left: 70%;
   /* border: 1px solid white; */
   padding: 2px; 
   cursor: pointer; 
+
 }
+
 .hr{
   margin-left: -50px;
 }
@@ -66,7 +68,7 @@ html,body{
 .NavUl a{
   text-decoration: none;
   color: white;
-  /* border-bottom: 1px solid white; */
+  
   /* border: 1px solid white; */
   padding: 4px 155px;
   margin: auto;
@@ -78,7 +80,8 @@ html,body{
 }
 
 .NavUl li{
-  margin: 8px auto;
+  margin: 8px auto 8px -17px;
+  text-align: center;
 
 }
 /* .NavDiv:hover.NavUl{
@@ -88,7 +91,19 @@ html,body{
   background: rgb(118, 3, 39);
   padding: 1px 0;
 }
+.acornlogo{
+  width: 70px;
+  margin: 5px auto -70px -7px;
+}
+.acornlogo img{
+  width: 100%;
+}
+
 @media only screen and (min-width: 500px){
+  .acornlogo{
+    width: 80px;
+    margin: 0;
+  }
   .dots:after{
     display: none;
   }
@@ -105,11 +120,13 @@ html,body{
   .NavUl a{
     text-decoration: none;
     color: white;
-    padding: 24px 21px;
+    padding: 16px 21px 16px 21px;
     margin: auto;
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
   }
   .NavUl li{
-    margin: 8px 0;
+    margin: 35px 0 8px 0;
   }
   .NavDiv{
     padding: 10px 0;
