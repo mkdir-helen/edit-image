@@ -40,7 +40,7 @@ export default class EditPhoto extends Component {
             fontFamily: "arial",
             fontSize: "40",
             text: "hello world",
-            coRGB: "",
+            coRGB: "black",
             active: false
         }
     }
@@ -227,20 +227,20 @@ export default class EditPhoto extends Component {
                             <div className="editImage">
                                 <h3>Photo Edits</h3>
                                 <div className="opacity">
-                                    <label htmlFor="opacity">Opacity</label>
-                                    <input type="number" name="opacity" id="" min="0" max="100" placeholder="100" onChange={this.handleOpacityChange} />
+                                    <label htmlFor="opacity">Opacity: </label>
+                                    <input type="number" name="opacity" id="" min="0" max="100" value={this.state.opacity} onChange={this.handleOpacityChange} />
                                 </div>
                                 <div className="angle">
-                                    <label htmlFor="angle">Rotation</label>
-                                    <input type="number" name="angle" id="" min="-360" max="360" placeholder="0" onChange={this.handleAngleChange} />
+                                    <label htmlFor="angle">Rotation: </label>
+                                    <input type="number" name="angle" id="" min="-360" max="360" value={this.state.angle} onChange={this.handleAngleChange} />
                                 </div>
                                 <div className="radius">
-                                    <label htmlFor="radius">Corner Radius</label>
-                                    <input type="number" name="radius" id="" min="0" max="100" placeholder="0" onChange={this.handleRadiusChange} />
+                                    <label htmlFor="radius">Corner Radius: </label>
+                                    <input type="number" name="radius" id="" min="0" max="100" value={this.state.radius} onChange={this.handleRadiusChange} />
 
                                 </div>
                                 <div className="pictureEffect">
-                                    <label htmlFor="picture_effect">Photo Effect</label>
+                                    <label htmlFor="picture_effect">Photo Effect: </label>
                                     <select name="picture_effect" onChange={this.handleEffectChange}>
                                         <option value="">None</option>
                                         <option value="sepia">Sepia</option>
@@ -254,20 +254,23 @@ export default class EditPhoto extends Component {
                             <div className="editText">
                                 <h3>Overlay Text Edits</h3>
                                 <div className="textCoordinates">
+                                    <div className="xylabel">
+                                        <label >Text Position</label><br />
+                                    </div>
                                     <div className="X">
-                                        <label htmlFor="x">X</label>
-                                        <input type="number" name="x" onChange={this.handleXChange} />
+                                        <label htmlFor="x">X: </label>
+                                        <input type="number" name="x" value={this.state.x} onChange={this.handleXChange} />
                                     </div>
                                     <div className="Y">
-                                        <label htmlFor="y">Y</label>
-                                        <input type="number" name="y" onChange={this.handleYChange} />
+                                        <label htmlFor="y">Y: </label>
+                                        <input type="number" name="y" value={this.state.y} onChange={this.handleYChange} />
                                     </div>
                                 </div>
                                 <div className="fontFamily">
-                                    <label htmlFor="fontFamily">Font-Family</label>
-                                    <select name="fontFamily" id="" onChange={this.handleFontFamilyChange}>
+                                    <label htmlFor="fontFamily">Font-Family: </label>
+                                    <select name="fontFamily" onChange={this.handleFontFamilyChange} value={this.state.fontFamily}>
                                         <option value="allan">Allan</option>
-                                        <option value="arial" selected>Arial</option>
+                                        <option value="arial">Arial</option>
                                         <option value="bookman">Bookman</option>
                                         <option value="courier">Courier</option>
                                         <option value="dekko">Dekko</option>
@@ -284,18 +287,18 @@ export default class EditPhoto extends Component {
                                     </select>
                                 </div>
                                 <div className="Text">
-                                    <label htmlFor="Text">Text</label>
-                                    <input type="text" name="Text" placeholder="Hello World" onChange={this.handleTextChange} />
+                                    <label htmlFor="Text">Text: </label>
+                                    <input type="text" name="Text" value={this.state.text} onChange={this.handleTextChange} />
                                 </div>
                                 <div className="fontSize">
-                                    <label htmlFor="fontSize">Font-Size</label>
-                                    <input type="number" min="4" name="fontSize" onChange={this.handleFontSizeChange} />
+                                    <label htmlFor="fontSize">Font-Size: </label>
+                                    <input type="number" min="4" name="fontSize" value={this.state.fontSize} onChange={this.handleFontSizeChange} />
                                 </div>
                                 <div className="coRGB">
-                                    <label htmlFor="coRGB">Text Color</label>
+                                    <label htmlFor="coRGB">Text Color: </label>
                                     {/* <input type="text" name="coRGB" onChange={this.handleTextColorChange} /> */}
-                                    <select name="coRGB" onChange={this.handleTextColorChange}>
-                                        <option value="black" selected >Black</option>
+                                    <select name="coRGB" onChange={this.handleTextColorChange} value={this.state.coRGB}>
+                                        <option value="black" >Black</option>
                                         <option value="red">Red</option>
                                         <option value="blue">Blue</option>
                                         <option value="green">Green</option>
