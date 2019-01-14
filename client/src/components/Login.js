@@ -5,7 +5,8 @@ export default class Login extends Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            errorMessage: ''
         };
     }
     handleSubmit = (e) => {
@@ -23,7 +24,13 @@ export default class Login extends Component {
             .then(r => r.json())
             .then(result => {
                 console.log(result);
-                this.props.history.push('/gallery');
+                if (result.message) {
+                    this.props.history.push('/gallery');
+                } else {
+                    this.setState({
+                        errorMessage: "Username and password does not match."
+                    })
+                }
             })
             .catch(err => {
                 console.log(err);
@@ -36,6 +43,7 @@ export default class Login extends Component {
         this.setState({ password: e.target.value });
     }
     render() {
+        const hasError = this.state.errorMessage !== "";
         return (
             <form action="/login"
                 method="POST"
@@ -43,6 +51,9 @@ export default class Login extends Component {
                 onSubmit={this.handleSubmit}
             >
                 <h1>Log In</h1>
+                {hasError &&
+                    <h4>{this.state.errorMessage}</h4>
+                }
                 <label>Username: </label>
                 <input type='text'
                     name='username'

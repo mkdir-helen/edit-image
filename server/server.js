@@ -222,9 +222,10 @@ app.post('/login', (req, res) => {
         console.log(req.session.user);
         // req.session.returnTo = req.originalUrl;
         // console.log(req.session.returnTo);
-        res.redirect('/gallery');
+        // res.redirect('/gallery');
+        res.json({ message: true });
       } else {
-        res.redirect('/login');
+        res.json({ message: false });
       }
     });
 });
