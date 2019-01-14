@@ -38,7 +38,7 @@ export default class EditPhoto extends Component {
             x: '0',
             y: '0',
             fontFamily: "arial",
-            fontSize: "40",
+            fontSize: "80",
             text: "hello world",
             coRGB: "black",
             active: false

@@ -159,7 +159,12 @@ app.get('/username', (req, res) => {
 
 app.get('/gallery', protectRoute, (req, res) => {
   console.log(req.session);
-  res.redirect(`/${req.session.user.username}/gallery`);
+  // res.redirect(`/${req.session.user.username}/gallery`);
+  Image.getByUser(req.session.user.id)
+    .then(result => {
+      res.send(result);
+    });
+
 });
 
 app.get('/:user/gallery', protectRoute, (req, res) => {
@@ -254,7 +259,9 @@ app.post('/logout', (req, res) => {
   req.session.destroy();
   // req.session.returnTo = null;
 
-  res.redirect('/');
+  res.json({
+    logout: true
+  });
 })
 
 // { public_id: 'melon/baka',
