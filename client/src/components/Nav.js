@@ -92,6 +92,8 @@ export default class Nav extends Component {
     render() {
         const isLoggedIn = this.state.active;
         const isMobile = this.state.width < 500;
+        const between5and6 = this.state.width >= 500 && this.state.width < 650;
+        const welcomeBreak = between5and6 ? <br /> : "";
         return (
             <div className="NavDiv">
                 <ul className="NavUl">
@@ -104,6 +106,14 @@ export default class Nav extends Component {
                     </div>
                     {(this.state.dots || !isMobile) &&
                         (<>
+                            {(isLoggedIn && isMobile) && (
+                                <>
+                                    <hr className="hr" />
+                                    <li>
+                                        Welcome, {this.state.username}
+                                    </li>
+                                </>
+                            )}
                             <hr className="hr" />
                             <li>
                                 <Link to="/" onClick={this.handleActiveUser}>Home</Link><hr className="hr" />
@@ -134,6 +144,11 @@ export default class Nav extends Component {
                         </>)
                     }
                 </ul>
+                {(isLoggedIn && !isMobile) && (
+                    <div className="bigusername">
+                        Welcome, {welcomeBreak} {this.state.username}
+                    </div>
+                )}
             </div>
         )
     }
