@@ -7,14 +7,13 @@ export default class Nav extends Component {
         this.state = {
             active: false,
             dots: false,
-            width: window.innerWidth
+            width: window.innerWidth,
+            username: ''
         }
     }
 
     componentDidMount = () => {
         window.addEventListener('resize', this.handleWindowSizeChange);
-        this.handleActiveUser();
-        setInterval(this.handleActiveUser, 1000);
     }
     componentWillUnmount = () => {
         window.removeEventListener('resize', this.handleWindowSizeChange);
@@ -22,47 +21,70 @@ export default class Nav extends Component {
     handleWindowSizeChange = () => {
         this.setState({ width: window.innerWidth });
     }
-
-    handleActiveUser = () => {
-        fetch(`/active`)
-            .then(r => r.json())
-            .then(result => {
-                console.log(result);
-                this.setState({
-                    active: result
-                })
-            })
-    }
-    handleLogOut = () => {
-        fetch(`/logout`,
-            { method: 'POST' }
-        )
-            .then(r => r.json())
-            .then(result => {
-                console.log(result);
-                this.setState({
-                    active: false,
-                    dots: false
-                })
-                this.props.history.push('/');
-            })
-    }
-    showMenu = (e) => {
-        e.preventDefault();
-        if (!this.state.dots) {
-            this.setState({
-                dots: true
-            })
-        } else {
-            this.setState({
-                dots: false
-            })
+    handleErrors = (response) => {
+        if (!response.ok) {
+            throw Error(response.statusText);
         }
+        return response;
     }
+    // fetch("http://httpstat.us/500")
+    //     .then(handleErrors)
+    //     .then(response => console.log("ok") )
+    //     .catch(error => console.log(error) );
+
+    // handleGetUsername = () => {
+    //     // if (this.state.active) {
+    //     fetch(`/username`)
+    //         .then(res => res.json())
+    //         .then(res => {
+    //             console.log(res);
+    //             this.setState({
+    //                 username: res.username
+    //             })
+    //         })
+    // }
+    // handleActiveUser = () => {
+    //     fetch(`/active`)
+    //         .then(r => r.json())
+    //         .then(result => {
+    //             console.log(result);
+    //             this.setState({
+    //                 active: result
+    //             }, this.handleGetUsername)
+    //         })
+    // }
+    // handleLogOut = () => {
+    //     fetch(`/logout`,
+    //         { method: 'POST' }
+    //     )
+    //         .then(r => r.json())
+    //         .then(result => {
+    //             console.log(result);
+    //             this.setState({
+    //                 active: false,
+    //                 dots: false
+    //             })
+    //             this.props.history.push('/');
+    //         })
+    // }
+    // showMenu = (e) => {
+    //     e.preventDefault();
+    //     if (!this.state.dots) {
+    //         this.setState({
+    //             dots: true
+    //         })
+    //     } else {
+    //         this.setState({
+    //             dots: false
+    //         })
+    //     }
+    // }
 
     render() {
-        const isLoggedIn = this.state.active;
-        const isMobile = this.state.width <= 500;
+        const isLoggedIn = this.props.active;
+        const isMobile = this.state.width < 500;
+        const between5and6 = this.state.width >= 500 && this.state.width < 650;
+        const welcomeBreak = between5and6 ? <br /> : "";
         return (
             <div className="NavDiv">
                 <ul className="NavUl">
@@ -70,23 +92,31 @@ export default class Nav extends Component {
                         <img src={acorn} alt="" />
                     </div>
                     <div className="dots"
-                        onClick={this.showMenu}
+                        onClick={this.props.showMenu}
                     >
                     </div>
-                    {(this.state.dots || !isMobile) &&
+                    {(this.props.dots || !isMobile) &&
                         (<>
+                            {(isLoggedIn && isMobile) && (
+                                <>
+                                    <hr className="hr" />
+                                    <li>
+                                        Welcome, {this.props.username}
+                                    </li>
+                                </>
+                            )}
                             <hr className="hr" />
                             <li>
-                                <Link to="/" onClick={this.handleActiveUser}>Home</Link><hr className="hr" />
+                                <Link to="/" onClick={this.props.handleActiveUser}>Home</Link><hr className="hr" />
                             </li>
                             {isLoggedIn ? (
                                 <>
                                     <li>
-                                        <Link to="/gallery" onClick={this.handleActiveUser}>Gallery</Link><hr className="hr" />
+                                        <Link to="/gallery" onClick={this.props.handleActiveUser}>Gallery</Link><hr className="hr" />
                                     </li>
                                     <li>
                                         <Link to="/"
-                                            onClick={this.handleLogOut}
+                                            onClick={this.props.handleLogOut}
                                         >Logout</Link>
                                     </li>
                                 </>
@@ -94,17 +124,22 @@ export default class Nav extends Component {
                                     <>
                                         <li>
                                             <Link to="/login"
-                                                onClick={this.handleActiveUser}
+                                                onClick={this.props.handleActiveUser}
                                             >Login</Link><hr className="hr" />
                                         </li>
                                         <li>
-                                            <Link to="/register" onClick={this.handleActiveUser}>Register</Link>
+                                            <Link to="/register" onClick={this.props.handleActiveUser}>Register</Link>
                                         </li>
                                     </>
                                 )}
                         </>)
                     }
                 </ul>
+                {(isLoggedIn && !isMobile) && (
+                    <div className="bigusername">
+                        Welcome, {welcomeBreak} {this.props.username}
+                    </div>
+                )}
             </div>
         )
     }

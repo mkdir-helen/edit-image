@@ -74,31 +74,31 @@ app.post('/upload', upload.single('image'), async (req, res) => {
   }
 });
 
-app.post('/update', upload.single('image'), async (req, res) => {
+// app.post('/update', upload.single('image'), async (req, res) => {
 
-  const result = await cloudinary.v2.uploader.upload(req.file.path, { public_id: req.body.public_id },
-    function (error, result) { console.log(result, error) }
-  );
-  // const result = await cloudinary.v2.uploader.upload(req.file.path,
-  //   {public_id: req.body.public_id, invalidate: true},
-  //   function(error, result) {console.log(result, error)});
+//   const result = await cloudinary.v2.uploader.upload(req.file.path, { public_id: req.body.public_id },
+//     function (error, result) { console.log(result, error) }
+//   );
+//   // const result = await cloudinary.v2.uploader.upload(req.file.path,
+//   //   {public_id: req.body.public_id, invalidate: true},
+//   //   function(error, result) {console.log(result, error)});
 
-  if (req.session.user) {
-    Image.addImage(req.body.title, result.secure_url, req.session.user.id)
-      .then(Image.getByUser(req.session.user.id)
-        .then(result => {
-          res.send(result);
-        }))
-  } else {
-    Demo.addDemo(req.body.title, req.body.folder, result.secure_url, null)
-      .then(
-        Demo.getAll()
-          .then(result => {
-            res.send(result);
-          })
-      )
-  }
-})
+//   if (req.session.user) {
+//     Image.addImage(req.body.title, result.secure_url, req.session.user.id)
+//       .then(Image.getByUser(req.session.user.id)
+//         .then(result => {
+//           res.send(result);
+//         }))
+//   } else {
+//     Demo.addDemo(req.body.title, req.body.folder, result.secure_url, null)
+//       .then(
+//         Demo.getAll()
+//           .then(result => {
+//             res.send(result);
+//           })
+//       )
+//   }
+// })
 
 app.post('/delete', (req, res) => {
   console.log('console loggin important things!!!!!');
@@ -144,9 +144,27 @@ app.get('/active', (req, res) => {
   }
 })
 
+app.get('/username', (req, res) => {
+  if (req.session.user) {
+    User.getById(req.session.user.id)
+      .then(result => {
+        console.log(result);
+        res.json({ username: result.username });
+      })
+  } else {
+    console.log("No user!!!");
+    res.json({ username: '' });
+  }
+})
+
 app.get('/gallery', protectRoute, (req, res) => {
   console.log(req.session);
-  res.redirect(`/${req.session.user.username}/gallery`);
+  // res.redirect(`/${req.session.user.username}/gallery`);
+  Image.getByUser(req.session.user.id)
+    .then(result => {
+      res.send(result);
+    });
+
 });
 
 app.get('/:user/gallery', protectRoute, (req, res) => {
@@ -190,14 +208,6 @@ app.delete('/photo/:photoID', protectRoute, (req, res) => {
 })
 
 
-
-// app.get('/:photo', (req,res)=> {
-//   res.send('get the photo by itself');
-// });
-
-// app.get('/:photo/edit', (req,res)=> {
-//   res.send('edit photo');
-// });
 
 app.get('/login', (req, res) => {
   res.send(loginForm());
@@ -249,7 +259,9 @@ app.post('/logout', (req, res) => {
   req.session.destroy();
   // req.session.returnTo = null;
 
-  res.redirect('/');
+  res.json({
+    logout: true
+  });
 })
 
 // { public_id: 'melon/baka',

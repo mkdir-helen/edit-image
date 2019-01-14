@@ -31,8 +31,8 @@ export default class Edit extends Component {
       dPublicID: '',
       CloudBase64: '',
       crop: {
-        width: 30,
-        height: 10
+        width: 0,
+        height: 0
       },
       imgSrc: '',
       goneEditMode: false

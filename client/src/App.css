@@ -130,6 +130,23 @@ html,body{
   }
   .NavDiv{
     padding: 10px 0;
+    /* display: flex; */
+    /* justify-content: space-between; */
+  }
+  
+}
+@media only screen and (min-width: 500px) and (max-width: 650px){
+  .bigusername {
+    color: gold;
+    float: right;
+    margin: -55px 15px 8px 0;
+  }
+}
+@media only screen and (min-width: 650px){
+  .bigusername {
+    color: gold;
+    float: right;
+    margin: -47px 20px 8px 0;
   }
 }
 /* ///////////////// */
