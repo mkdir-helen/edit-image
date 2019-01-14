@@ -7,13 +7,15 @@ export default class Nav extends Component {
         this.state = {
             active: false,
             dots: false,
-            width: window.innerWidth
+            width: window.innerWidth,
+            username: ''
         }
     }
 
     componentDidMount = () => {
         window.addEventListener('resize', this.handleWindowSizeChange);
         this.handleActiveUser();
+        // this.handleGetUsername();
         setInterval(this.handleActiveUser, 1000);
     }
     componentWillUnmount = () => {
@@ -22,7 +24,33 @@ export default class Nav extends Component {
     handleWindowSizeChange = () => {
         this.setState({ width: window.innerWidth });
     }
+    handleErrors = (response) => {
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
+        return response;
+    }
+    // fetch("http://httpstat.us/500")
+    //     .then(handleErrors)
+    //     .then(response => console.log("ok") )
+    //     .catch(error => console.log(error) );
 
+    handleGetUsername = () => {
+        // if (this.state.active) {
+        fetch(`/username`)
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                this.setState({
+                    username: res.username
+                })
+            })
+        // } else {
+        //     this.setState({
+        //         username: null
+        //     })
+        // }
+    }
     handleActiveUser = () => {
         fetch(`/active`)
             .then(r => r.json())
@@ -30,8 +58,9 @@ export default class Nav extends Component {
                 console.log(result);
                 this.setState({
                     active: result
-                })
+                }, this.handleGetUsername)
             })
+        // .then(this.handleGetUsername);
     }
     handleLogOut = () => {
         fetch(`/logout`,
@@ -62,7 +91,7 @@ export default class Nav extends Component {
 
     render() {
         const isLoggedIn = this.state.active;
-        const isMobile = this.state.width <= 500;
+        const isMobile = this.state.width < 500;
         return (
             <div className="NavDiv">
                 <ul className="NavUl">
