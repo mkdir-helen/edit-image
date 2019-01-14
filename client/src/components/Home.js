@@ -23,7 +23,9 @@ export default class Home extends Component {
         height: 10
       },
       imgSrc: '',
-      willEdit: false
+      willEdit: false,
+      loaded: false,
+      loading: false
     }
   }
 
@@ -48,7 +50,9 @@ export default class Home extends Component {
           recentfile: [result[result.length - 1]],
           recenturl: result[result.length - 1].url,
           recentname: result[result.length - 1].name,
-          public_id: this.getPublicId(result[result.length - 1].url)
+          public_id: this.getPublicId(result[result.length - 1].url),
+          loading: true,
+          loaded: false
         })
 
       });
@@ -72,7 +76,11 @@ export default class Home extends Component {
     this.props.history.push('/edit');
   }
   handleEditButton = (e) => {
-    this.setState({ willEdit: true });
+    this.setState({
+      willEdit: true,
+      loading: false,
+      loaded: true
+    });
   }
 
 
@@ -92,7 +100,14 @@ export default class Home extends Component {
   }
 
   render() {
-
+    const loaded = this.state.loaded;
+    const loading = this.state.loading;
+    let loadMessage;
+    if (!loaded && loading) {
+      loadMessage = <div><br />Loading image...</div>;
+    } else if (loaded && !loading) {
+      loadMessage = <div></div>;
+    }
     return (
       <div>
         <h1>Home sweet home</h1>
@@ -110,6 +125,7 @@ export default class Home extends Component {
           </div>
           <button type="submit">Upload Image</button>
         </form>
+        {loadMessage}
         <div className="homeimageWrap">
           {this.state.willEdit &&
             <button onClick={this.handleEdit} className="editbutton">Edit Image</button>
