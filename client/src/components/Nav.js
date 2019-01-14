@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import acorn from '../images/acorn_white.png';
+import acorn from '../images/acorn_boldy.png';
 export default class Nav extends Component {
     constructor(props) {
         super(props);
