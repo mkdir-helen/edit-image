@@ -20,6 +20,7 @@ const loginForm = require('./views/LoginForm');
 const registerForm = require('./views/RegisterForm');
 const publicID = require('./tools/publicID');
 
+app.use(express.static('public'));
 app.use(
   session({
     store: new pgSession({
