@@ -33,10 +33,6 @@ export default class Gallery extends Component {
   }
 
 
-  handleGetPhoto = (e) => {
-
-  }
-
   render() {
     const isEmpty = this.state.gallery.length === 0;
     const isLoading = this.state.loading;
