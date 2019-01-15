@@ -222,9 +222,10 @@ app.post('/login', (req, res) => {
         console.log(req.session.user);
         // req.session.returnTo = req.originalUrl;
         // console.log(req.session.returnTo);
-        res.redirect('/gallery');
+        // res.redirect('/gallery');
+        res.json({ message: true });
       } else {
-        res.redirect('/login');
+        res.json({ message: false });
       }
     });
 });
@@ -234,6 +235,18 @@ app.get('/register', (req, res) => {
 })
 
 app.post('/register', (req, res) => {
+  User.getByEmail(req.body.email)
+    .then(user => {
+      if (user.email === req.body.email) {
+        res.json({ message: "email" });
+      }
+    })
+  User.getByUsername(req.body.username)
+    .then(user => {
+      if (user.username === req.body.username) {
+        res.json({ message: "username" });
+      }
+    })
   User.addUser(
     req.body.name,
     req.body.email,
@@ -244,7 +257,8 @@ app.post('/register', (req, res) => {
       req.session.user = user;
       // console.log(req.session);
       // req.session.returnTo = req.originalUrl;
-      res.redirect('/gallery');
+      // res.redirect('/gallery');
+      res.json({ message: "okay" });
     })
 });
 

@@ -7,7 +7,8 @@ export default class Register extends Component {
             name: '',
             email: '',
             username: '',
-            password: ''
+            password: '',
+            errorMessage: ''
         };
     }
     handleSubmit = (e) => {
@@ -26,8 +27,18 @@ export default class Register extends Component {
         })
             .then(r => r.json())
             .then(result => {
-                console.log(result);
-                this.props.history.push('/gallery');
+                if (result.message === "okay") {
+                    console.log(result);
+                    this.props.history.push('/gallery');
+                } else if (result.message === "email") {
+                    this.setState({
+                        errorMessage: "An account in that email already exists."
+                    })
+                } else if (result.message === "username") {
+                    this.setState({
+                        errorMessage: "An account in that username already exists."
+                    })
+                }
             })
             .catch(err => {
                 console.log(err);
@@ -46,6 +57,7 @@ export default class Register extends Component {
         this.setState({ password: e.target.value });
     }
     render() {
+        const hasError = this.state.errorMessage !== "";
         return (
             <form action='/register'
                 method='POST'
@@ -53,6 +65,9 @@ export default class Register extends Component {
                 onSubmit={this.handleSubmit}
             >
                 <h1>Sign Up</h1>
+                {hasError &&
+                    <h4>{this.state.errorMessage}</h4>
+                }
                 <label>Name: </label>
                 <input type='text'
                     name='name'
