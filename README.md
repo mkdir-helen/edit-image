@@ -15,7 +15,12 @@ With so many mobile apps that allow image editing, I wanted a site where it's po
 
 
 ## Challenges
-The biggest challenge I encountered was trying to integrate Cloudinary with the React Crop. 
+The biggest challenge I encountered was integrating Cloudinary. Cloudinary is a site which enables uploading, storing, manipulating, and delivering images and videos. Cloudinary seemed very useful for editing and transforming images in React. I wanted to integrate the cropping feature from React Image Crop and other editing features from Cloudinary. The problem was that the Cloudinary's image source was only limited to cloudinary image URLs. So with the help of some tutorials and codes, I was able to find a way to convert canvas images to Base64 to image files to URLs. I decided to upload images to Cloudinary to retrieve the image URL every time a user wanted to save the cropped image and edit them further. I have considered updating images in Cloudinary instead of uploading a new file each time, but uploading seemed the more time efficient option, so I stuck to uploading and deleting images along the editing process.   
+
+## Future Additions
+ * Be able to update images rather than creating newly edited images
+ * 
+ 
 
 ## Acknowledgments
 ### Shoaib Bhimani - Setting up Cloudinary in Node
@@ -28,5 +33,7 @@ The biggest challenge I encountered was trying to integrate Cloudinary with the 
   * [Helper Code](https://www.codingforentrepreneurs.com/blog/a-few-javascript-methods-for-images-files/) -Converting Base64 to canvas and vice versa
 ### Jason Jarrett - Converting image URL to Base64
   * [Code link](https://staxmanade.com/2017/02/how-to-download-and-convert-an-image-to-base64-data-url/#disqus_thread)
+### Gosha Arinich - Creating a mobile responsive layout with React
+ * [Code link](https://goshakkk.name/different-mobile-desktop-tablet-layouts-react/)
   
   
