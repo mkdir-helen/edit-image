@@ -38,6 +38,10 @@ export default class Register extends Component {
                     this.setState({
                         errorMessage: "An account in that username already exists."
                     })
+                } else if (result.message === "empty") {
+                    this.setState({
+                        errorMessage: "Please fill out everything in the form."
+                    })
                 }
             })
             .catch(err => {

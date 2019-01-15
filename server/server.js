@@ -215,6 +215,11 @@ app.get('/login', (req, res) => {
 
 app.post('/login', (req, res) => {
   User.getByUsername(req.body.username)
+    .catch(error => {
+      console.log(error);
+      console.log("this is error~~~");
+      res.json({ message: "user" });
+    })
     .then(user => {
       let didMatch = user.checkPassword(req.body.password, user.password);
       if (didMatch) {
@@ -223,9 +228,10 @@ app.post('/login', (req, res) => {
         // req.session.returnTo = req.originalUrl;
         // console.log(req.session.returnTo);
         // res.redirect('/gallery');
-        res.json({ message: true });
+        res.json({ message: "ok" });
       } else {
-        res.json({ message: false });
+        console.log("this is message when it's not working");
+        res.json({ message: "password" });
       }
     });
 });
@@ -247,6 +253,9 @@ app.post('/register', (req, res) => {
         res.json({ message: "username" });
       }
     })
+  if (req.body.email === '' || req.body.username === "" || req.body.name === "" || req.body.password === "") {
+    res.json({ message: "empty" });
+  }
   User.addUser(
     req.body.name,
     req.body.email,
