@@ -99,6 +99,9 @@ h4{
 .acornlogo img{
   width: 100%;
 }
+.bigusernameli {
+  color: gold;
+}
 
 @media only screen and (min-width: 500px){
   .acornlogo{
