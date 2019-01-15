@@ -43,6 +43,12 @@ html,body{
     transform: rotate(360deg);
   }
 }
+
+/* Error stuff */
+h4{
+  color: red;
+}
+
 /* ///////////////// */
 /* Nav section */
 /* ////////////////// */
