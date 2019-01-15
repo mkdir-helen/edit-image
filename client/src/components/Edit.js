@@ -203,6 +203,7 @@ export default class Edit extends Component {
         ) : (
             <div className="cropmode">
               <h1>Crop it</h1>
+              <p>Click on the image to start cropping.</p>
               <div className="cropimages">
                 <div className="cropmain">
                   <ReactCrop
