@@ -21,14 +21,23 @@ export default class Login extends Component {
                 'Content-Type': 'application/json'
             }
         })
+            // .catch(error => {
+            //     console.log(error);
+            //     console.log("what is error???");
+            // })
             .then(r => r.json())
             .then(result => {
                 console.log(result);
-                if (result.message) {
+
+                if (result.message === "ok") {
                     this.props.history.push('/gallery');
-                } else {
+                } else if (result.message === "user") {
                     this.setState({
-                        errorMessage: "Username and password does not match."
+                        errorMessage: "Username does not exist."
+                    })
+                } else if (result.message === "password") {
+                    this.setState({
+                        errorMessage: "Username and password do not match."
                     })
                 }
             })
