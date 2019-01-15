@@ -48,7 +48,7 @@ export default class Nav extends Component {
                             {(isLoggedIn && isMobile) && (
                                 <>
                                     <hr className="hr" />
-                                    <li>
+                                    <li className="bigusernameli">
                                         Welcome, {this.props.username}
                                     </li>
                                 </>

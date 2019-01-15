@@ -180,11 +180,13 @@ export default class Edit extends Component {
                                         onImageLoaded={this.handleImageLoaded}
                                         onComplete={this.handleOnCropComplete}
                                         onChange={this.handleOnCropChange} />
+                                    <br />
                                     <button onClick={this.handleOnCropClick} >Crop</button>
                                 </div>
                                 <div className="preview">
                                     <p>Preview Canvas Crop</p>
                                     <canvas ref={this.imagePreviewCanvasRef} ></canvas>
+                                    <br />
                                     <button onClick={this.handleDownloadClick} >Download</button>
                                     <button onClick={this.handleFurtherEditClick} >Edit Further</button>
                                 </div>
