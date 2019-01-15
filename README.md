@@ -1,68 +1,32 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Edit Squirrel
 
-## Available Scripts
+[Live Demo](www.edit-squirrel.com)
+## About
+With so many mobile apps that allow image editing, I wanted a site where it's possible to edit images on a laptop without having to download or pay for applications. This website allows users to upload, edit, download, and save images. Users who are registered can save their images to edit as many times as they like.
 
-In the project directory, you can run:
+## Built With
+* [React](https://github.com/facebook/create-react-app)
+* Express
+* Node.js
+* PostgreSQL
+* [Cloudinary](https://cloudinary.com)
+* [Multer](https://github.com/expressjs/multer)
+* [React Image Crop](https://github.com/DominicTobias/react-image-crop)
 
-### `npm start`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Challenges
+The biggest challenge I encountered was trying to integrate Cloudinary with the React Crop. 
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Acknowledgments
+### Shoaib Bhimani - Setting up Cloudinary in Node
+  * [Youtube link](https://www.youtube.com/watch?v=9R4A0-FjG-M&t=227s&list=LLuBSaJZeyAPVxIYzUrBUp1A&index=2)
+  (The language is in Hindi but the video was easy to follow along and understand)
+  * [GitHub Code](https://github.com/shoaibcode/express-handler/tree/upload-image-part1)
+### CodingEntrepreneurs(Justin Mitchel) - Setting up react-image-crop in React
+  * [Youtube link](https://www.youtube.com/watch?v=jyeRDo2tP_s&index=28&list=PLEsfXFp6DpzQbwYDx1zgcKJ4tzyWFaESK&t=545s)
+  * [GitHub Code](https://github.com/codingforentrepreneurs/Try-Reactjs)
+  * [Helper Code](https://www.codingforentrepreneurs.com/blog/a-few-javascript-methods-for-images-files/) -Converting Base64 to canvas and vice versa
+### Jason Jarrett - Converting image URL to Base64
+  * [Code link](https://staxmanade.com/2017/02/how-to-download-and-convert-an-image-to-base64-data-url/#disqus_thread)
+  
+  
