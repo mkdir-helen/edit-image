@@ -60,15 +60,10 @@ export default class Edit extends Component {
 
     handleImageLoaded = (image, pixelCrop) => {
         console.log(image);
-        // const canvasRef = this.imagePreviewCanvasRef.current;
-        // const { imgSrc } = this.state;
-        // image64toCanvasRef(canvasRef, imgSrc, pixelCrop);
     }
 
     handleOnCropChange = (crop) => {
-        // console.log(crop);
         this.setState({ crop });
-        // console.log(this.state);
     }
     handleOnCropComplete = (crop, pixelCrop) => {
         // console.log(crop, pixelCrop);
@@ -83,7 +78,6 @@ export default class Edit extends Component {
         const { imgSrc } = this.state;
         const fileExtension = extractImageFileExtensionFromBase64(imgSrc);
         const imageData64 = canvasRef.toDataURL('image/' + fileExtension);
-        // console.log(imageData64);
         this.setState({
             imgSrc: imageData64
         })
@@ -151,16 +145,11 @@ export default class Edit extends Component {
 
     getPublicId = (url) => {
         let arr = url.split('/');
-        // console.log(arr);
         let foldername = arr[arr.length - 2];
-        // console.log(foldername);
         let filename = arr[arr.length - 1];
-        // console.log(filename);
 
         let public_id_ext = foldername + '/' + filename;
-        // console.log(public_id_ext);
         let public_id = public_id_ext.substring(0, public_id_ext.length - 4);
-        // console.log(public_id);
         return public_id;
     }
 

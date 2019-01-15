@@ -27,58 +27,6 @@ export default class Nav extends Component {
         }
         return response;
     }
-    // fetch("http://httpstat.us/500")
-    //     .then(handleErrors)
-    //     .then(response => console.log("ok") )
-    //     .catch(error => console.log(error) );
-
-    // handleGetUsername = () => {
-    //     // if (this.state.active) {
-    //     fetch(`/username`)
-    //         .then(res => res.json())
-    //         .then(res => {
-    //             console.log(res);
-    //             this.setState({
-    //                 username: res.username
-    //             })
-    //         })
-    // }
-    // handleActiveUser = () => {
-    //     fetch(`/active`)
-    //         .then(r => r.json())
-    //         .then(result => {
-    //             console.log(result);
-    //             this.setState({
-    //                 active: result
-    //             }, this.handleGetUsername)
-    //         })
-    // }
-    // handleLogOut = () => {
-    //     fetch(`/logout`,
-    //         { method: 'POST' }
-    //     )
-    //         .then(r => r.json())
-    //         .then(result => {
-    //             console.log(result);
-    //             this.setState({
-    //                 active: false,
-    //                 dots: false
-    //             })
-    //             this.props.history.push('/');
-    //         })
-    // }
-    // showMenu = (e) => {
-    //     e.preventDefault();
-    //     if (!this.state.dots) {
-    //         this.setState({
-    //             dots: true
-    //         })
-    //     } else {
-    //         this.setState({
-    //             dots: false
-    //         })
-    //     }
-    // }
 
     render() {
         const isLoggedIn = this.props.active;

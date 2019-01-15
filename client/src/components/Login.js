@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+
 
 export default class Login extends Component {
     constructor(props) {
@@ -21,10 +23,6 @@ export default class Login extends Component {
                 'Content-Type': 'application/json'
             }
         })
-            // .catch(error => {
-            //     console.log(error);
-            //     console.log("what is error???");
-            // })
             .then(r => r.json())
             .then(result => {
                 console.log(result);
@@ -77,7 +75,7 @@ export default class Login extends Component {
                     value={this.state.password}
                 />
                 <p><button type="submit">Login</button></p>
-                <p>Not a member? <a href="/register">Sign up now</a></p>
+                <p>Not a member? <Link to="/register">Sign up now</Link></p>
             </form>
         );
     }

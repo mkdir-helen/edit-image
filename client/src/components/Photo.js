@@ -42,9 +42,6 @@ export default class Photo extends Component {
     }
 
 
-    handleEdit = (e) => {
-
-    }
     handleDownload = (e) => {
         e.preventDefault();
         const { imgSrc } = this.state;

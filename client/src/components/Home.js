@@ -33,7 +33,6 @@ export default class Home extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    //  debugger;
     const uuidTitle = this.state.title + uuid.v4();
     console.log(uuidTitle);
     const formdata = new FormData();
@@ -59,7 +58,6 @@ export default class Home extends Component {
   }
 
   getImage = (e) => {
-    // console.log(e.target.files[0]);
     this.setState({
       image: e.target.files[0]
     })
@@ -86,16 +84,11 @@ export default class Home extends Component {
 
   getPublicId = (url) => {
     let arr = url.split('/');
-    // console.log(arr);
     let foldername = arr[arr.length - 2];
-    // console.log(foldername);
     let filename = arr[arr.length - 1];
-    // console.log(filename);
 
     let public_id_ext = foldername + '/' + filename;
-    // console.log(public_id_ext);
     let public_id = public_id_ext.substring(0, public_id_ext.length - 4);
-    // console.log(public_id);
     return public_id;
   }
 
