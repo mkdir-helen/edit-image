@@ -2,7 +2,7 @@
 <p align="center">
   <img src="./readmeimg/homesweethome.png" width="auto" height="80%" />
   <br><br>
-  <a href="www.edit-squirrel.com/" font-size="16px" >Live Demo</a>
+  <a href="www.edit-squirrel.com/" font-size="30px" >Live Demo</a>
 </p> 
 
 ## About
