@@ -1,5 +1,5 @@
 # Edit Squirrel
-
+![Edit Squirrel](./readmeimg/homesweethome.png)
 [Live Demo](www.edit-squirrel.com)
 ## About
 With so many mobile apps that allow image editing, I wanted a site where it's possible to edit images on a laptop without having to download or pay for applications. This website allows users to upload, edit, download, and save images. Users who are registered can save their images to edit as many times as they like.
