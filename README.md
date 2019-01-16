@@ -1,8 +1,6 @@
-# Edit Squirrel
+# [Edit Squirrel](www.edit-squirrel.com/)
 <p align="center">
   <img src="./readmeimg/homesweethome.png" width="auto" height="80%" />
-  <br><br>
-  <a href="www.edit-squirrel.com/" font-size="30px" >Live Demo</a>
 </p> 
 
 ## About
@@ -17,6 +15,23 @@ With so many mobile apps that allow image editing, I wanted a site where it's po
 * [Multer](https://github.com/expressjs/multer)
 * [React Image Crop](https://github.com/DominicTobias/react-image-crop)
 
+## Features
+
+<p align="center">
+  <img src="./readmeimg/cropimage.png" width="auto" height="auto" />
+</p> 
+
+<p align="center">
+  <img src="./readmeimg/editimage.png" width="auto" height="auto" />
+</p>
+
+<p align="center">
+  <img src="./readmeimg/gallery2.png" width="auto" height="auto" />
+</p>
+
+<p align="center">
+  <img src="./readmeimg/eachphoto.png" width="auto" height="auto" />
+</p>
 
 ## Working with Cloudinary
 The biggest challenge I encountered was integrating Cloudinary.
