@@ -1,9 +1,9 @@
 # Edit Squirrel
 <p align="center">
-  <img src="./readmeimg/homesweethome.png" width="auto" height="500px" />
+  <img src="./readmeimg/homesweethome.png" width="auto" height="80%" />
 </p> 
 
-### [Live Demo](www.edit-squirrel.com)
+### [Live Demo](www.edit-squirrel.com/#style=centerme)
 ## About
 With so many mobile apps that allow image editing, I wanted a site where it's possible to edit images on a laptop without having to download or pay for applications. This website allows users to upload, edit, download, and save images. Users who are registered can save their images to edit as many times as they like.
 
