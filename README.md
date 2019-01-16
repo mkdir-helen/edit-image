@@ -77,7 +77,7 @@ getPublicId(imgUrl);
 
 ## Acknowledgments
 I would like to thank [DigitalCrafts](https://www.digitalcrafts.com) for helping me build the skills to create this web app. 
-<br>I would also like to thank my instructor [Chris Aquino](https://www.linkedin.com/in/chris-aquino-9a86044/) and teacher's assistant [Aylin DeBruyne](https://github.com/adebruyne) for supporting me (I wouldn't have accomplished this solo project without their help!).
+<br>I would also like to thank my instructor [Chris Aquino](https://www.linkedin.com/in/chris-aquino-9a86044/) and teacher's assistant [Aylin DeBruyne](https://www.linkedin.com/in/aylindebruyne/) for supporting me (I wouldn't have accomplished this solo project without their help!).
 
 <br>And also to the others who've helped me out with their great coding tutorials:
 
