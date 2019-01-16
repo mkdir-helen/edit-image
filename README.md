@@ -51,7 +51,12 @@ getPublicId(imgUrl);
  
 
 ## Acknowledgments
-### Shoaib Bhimani - Setting up thanCloudinary in Node
+I would like to thank [DigitalCrafts](https://www.digitalcrafts.com) for helping me build the skills to create this web app. 
+<br>I would also like to thank my instructor [Chris Aquino](https://www.linkedin.com/in/chris-aquino-9a86044/) and teacher's assistant [Aylin DeBruyne](https://github.com/adebruyne) for supporting me (I wouldn't have accomplished this solo project without their help!).
+
+<br>And also to the others who've helped me out with their great coding tutorials:
+
+### Shoaib Bhimani - Setting up Cloudinary in Node
   * [Youtube link](https://www.youtube.com/watch?v=9R4A0-FjG-M&t=227s&list=LLuBSaJZeyAPVxIYzUrBUp1A&index=2)
   (The language is in Hindi but the video was easy to follow along and understand)
   * [GitHub Code](https://github.com/shoaibcode/express-handler/tree/upload-image-part1)
