@@ -16,8 +16,9 @@ With so many mobile apps that allow image editing, I wanted a site where it's po
 * [React Image Crop](https://github.com/DominicTobias/react-image-crop)
 
 ## Features
+<hr color="purple">
 All users can upload an image to crop, edit, and download. Registered users have an additional option to save images to their gallery. Images in the gallery can be clicked on to further edit, download, or delete. 
-<hr>
+<hr color="purple">
 <br><br><br>
 <p align="center">
   <img src="./readmeimg/cropimage.png" width="auto" height="auto" />
